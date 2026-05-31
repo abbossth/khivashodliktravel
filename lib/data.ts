@@ -55,6 +55,23 @@ async function fetchTours(options?: {
   }
 }
 
+async function cached<T>(
+  fn: () => Promise<T>,
+  keys: string[],
+  tags: string[],
+  fallback: T
+): Promise<T> {
+  try {
+    return await unstable_cache(fn, keys, {
+      revalidate: REVALIDATE_SECONDS,
+      tags,
+    })();
+  } catch (error) {
+    logError(`cache:${keys.join(',')}`, error);
+    return fallback;
+  }
+}
+
 export async function getTours(options?: {
   category?: TourCategory;
   featured?: boolean;
@@ -62,10 +79,7 @@ export async function getTours(options?: {
   publishedOnly?: boolean;
 }): Promise<Tour[]> {
   const cacheKey = JSON.stringify(options ?? {});
-  return unstable_cache(() => fetchTours(options), ['tours', cacheKey], {
-    revalidate: REVALIDATE_SECONDS,
-    tags: ['tours'],
-  })();
+  return cached(() => fetchTours(options), ['tours', cacheKey], ['tours'], []);
 }
 
 async function fetchTourBySlug(slug: string, publishedOnly = true): Promise<Tour | null> {
@@ -87,10 +101,12 @@ export async function getTourBySlug(
   slug: string,
   publishedOnly = true
 ): Promise<Tour | null> {
-  return unstable_cache(() => fetchTourBySlug(slug, publishedOnly), ['tour', slug], {
-    revalidate: REVALIDATE_SECONDS,
-    tags: ['tours', `tour-${slug}`],
-  })();
+  return cached(
+    () => fetchTourBySlug(slug, publishedOnly),
+    ['tour', slug],
+    ['tours', `tour-${slug}`],
+    null
+  );
 }
 
 export async function getTourById(id: string): Promise<Tour | null> {
@@ -131,10 +147,7 @@ export async function getBlogPosts(options?: {
   publishedOnly?: boolean;
 }): Promise<BlogPost[]> {
   const cacheKey = JSON.stringify(options ?? {});
-  return unstable_cache(() => fetchBlogPosts(options), ['blog', cacheKey], {
-    revalidate: REVALIDATE_SECONDS,
-    tags: ['blog'],
-  })();
+  return cached(() => fetchBlogPosts(options), ['blog', cacheKey], ['blog'], []);
 }
 
 async function fetchBlogPostBySlug(slug: string, publishedOnly = true): Promise<BlogPost | null> {
@@ -156,10 +169,12 @@ export async function getBlogPostBySlug(
   slug: string,
   publishedOnly = true
 ): Promise<BlogPost | null> {
-  return unstable_cache(() => fetchBlogPostBySlug(slug, publishedOnly), ['blog-post', slug], {
-    revalidate: REVALIDATE_SECONDS,
-    tags: ['blog', `blog-${slug}`],
-  })();
+  return cached(
+    () => fetchBlogPostBySlug(slug, publishedOnly),
+    ['blog-post', slug],
+    ['blog', `blog-${slug}`],
+    null
+  );
 }
 
 export async function getAllTourSlugs(): Promise<string[]> {

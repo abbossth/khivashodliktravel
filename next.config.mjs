@@ -32,11 +32,6 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'date-fns'],
-    /** Keep visited pages in the client router cache longer (smoother back/forward & nav). */
-    staleTimes: {
-      dynamic: 60,
-      static: 300,
-    },
   },
 };
 
