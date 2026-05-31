@@ -87,18 +87,19 @@
     "phoneAlt": "Доп. телефон",
     "form": {
       "title": "Написать нам",
-      "subtitle": "Ответим в течение 24 часов.",
+      "subtitle": "Заполните форму и отправьте сообщение через WhatsApp или email.",
       "name": "Имя",
       "email": "Email",
       "phone": "Телефон / WhatsApp",
       "tourInterest": "Тур (необязательно)",
       "tourPlaceholder": "напр. тур к трём крепостям",
       "message": "Сообщение",
-      "submit": "Отправить",
-      "success": "Сообщение отправлено!",
-      "error": "Ошибка отправки. Напишите в WhatsApp.",
+      "sendWhatsApp": "Отправить в WhatsApp",
+      "sendEmail": "Отправить по Email",
       "defaultSubject": "Запрос с сайта",
-      "whatsappIntro": "Здравствуйте! Интересует:"
+      "emailSubject": "Запрос с сайта",
+      "whatsappIntro": "Здравствуйте! Интересует:",
+      "none": "—"
     }
   },
   "services": {

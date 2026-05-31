@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
+import { setAdminAuthCookie } from '@/lib/auth-cookie';
 import { getFirebaseAuthSafe, isFirebaseConfigured } from '@/lib/firebase';
 import { useAdminStore } from '@/hooks/useAdmin';
 import { Loader2, AlertCircle } from 'lucide-react';
@@ -39,7 +40,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
           }
 
           const token = await user.getIdToken();
-          document.cookie = `admin-token=${token}; path=/; max-age=3600; SameSite=Lax`;
+          setAdminAuthCookie(token);
           setUser(user);
           setToken(token);
           setLoading(false);

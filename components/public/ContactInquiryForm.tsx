@@ -1,77 +1,92 @@
 'use client';
 
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useTranslations } from 'next-intl';
-import { Loader2, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import WhatsAppIcon from '@/components/shared/WhatsAppIcon';
-import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { parseJsonResponse } from '@/hooks/useSafeFetch';
-import { getWhatsAppDigits } from '@/lib/contact';
+import {
+  buildInquiryMailtoUrl,
+  buildInquiryWhatsAppUrl,
+  type InquiryMessageLabels,
+} from '@/lib/inquiry-outreach';
+import { inquiryFormSchema, type InquiryFormValues } from '@/lib/validations';
+import { logError } from '@/lib/safe';
 
-const schema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  phone: z.string().min(5),
-  tourInterest: z.string().optional(),
-  message: z.string().min(10),
-});
-
-type FormValues = z.infer<typeof schema>;
+async function saveInquiryInBackground(
+  data: InquiryFormValues,
+  defaultSubject: string
+): Promise<void> {
+  try {
+    await fetch('/api/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...data,
+        subject: data.tourInterest?.trim() || defaultSubject,
+      }),
+    });
+  } catch (error) {
+    logError('saveInquiryInBackground', error);
+  }
+}
 
 export default function ContactInquiryForm() {
-  const whatsapp = getWhatsAppDigits();
   const t = useTranslations('contact');
-  const [submitting, setSubmitting] = useState(false);
 
   const {
     register,
     handleSubmit,
-    reset,
-    getValues,
     formState: { errors },
-  } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+  } = useForm<InquiryFormValues>({
+    resolver: zodResolver(inquiryFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      tourInterest: '',
+      message: '',
+    },
   });
 
-  const onSubmit = async (data: FormValues) => {
-    setSubmitting(true);
-    try {
-      const res = await fetch('/api/inquiries', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          subject: data.tourInterest || t('form.defaultSubject'),
-        }),
-      });
-      const parsed = await parseJsonResponse(res);
-      if (!parsed.ok) {
-        throw new Error(parsed.error ?? 'Failed');
-      }
-      toast.success(t('form.success'));
-      reset();
-    } catch {
-      toast.error(t('form.error'));
-    } finally {
-      setSubmitting(false);
-    }
+  const labels: InquiryMessageLabels = {
+    intro: t('form.whatsappIntro'),
+    name: t('form.name'),
+    email: t('form.email'),
+    phone: t('form.phone'),
+    tourInterest: t('form.tourInterest'),
+    message: t('form.message'),
+    emailSubject: t('form.emailSubject'),
+    none: t('form.none'),
   };
 
-  const openWhatsApp = () => {
-    const v = getValues();
-    const text = encodeURIComponent(
-      `${t('form.whatsappIntro')}\n${v.name || ''}\n${v.tourInterest || ''}\n${v.message || ''}`
-    );
-    window.open(`https://wa.me/${whatsapp}?text=${text}`, '_blank');
-  };
+  const toPayload = (data: InquiryFormValues) => ({
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    tourInterest: data.tourInterest,
+    message: data.message,
+  });
+
+  const openWhatsApp = handleSubmit((data) => {
+    void saveInquiryInBackground(data, t('form.defaultSubject'));
+    window.open(buildInquiryWhatsAppUrl(toPayload(data), labels), '_blank', 'noopener,noreferrer');
+  });
+
+  const openEmail = handleSubmit((data) => {
+    void saveInquiryInBackground(data, t('form.defaultSubject'));
+    window.location.href = buildInquiryMailtoUrl(toPayload(data), labels);
+  });
+
+  const fieldError = (key: keyof InquiryFormValues) =>
+    errors[key]?.message ? (
+      <p className="mt-1 text-xs text-destructive">{String(errors[key]?.message)}</p>
+    ) : null;
 
   return (
     <Card className="card-elevated border-0">
@@ -80,29 +95,35 @@ export default function ContactInquiryForm() {
         <p className="text-sm text-muted-foreground">{t('form.subtitle')}</p>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form className="space-y-4" noValidate onSubmit={(e) => e.preventDefault()}>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <Label htmlFor="inq-name">{t('form.name')}</Label>
-              <Input id="inq-name" {...register('name')} className="mt-1" />
-              {errors.name && (
-                <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>
-              )}
+              <Input id="inq-name" autoComplete="name" {...register('name')} className="mt-1" />
+              {fieldError('name')}
             </div>
             <div>
               <Label htmlFor="inq-phone">{t('form.phone')}</Label>
-              <Input id="inq-phone" {...register('phone')} className="mt-1" />
-              {errors.phone && (
-                <p className="mt-1 text-xs text-destructive">{errors.phone.message}</p>
-              )}
+              <Input
+                id="inq-phone"
+                type="tel"
+                autoComplete="tel"
+                {...register('phone')}
+                className="mt-1"
+              />
+              {fieldError('phone')}
             </div>
           </div>
           <div>
             <Label htmlFor="inq-email">{t('form.email')}</Label>
-            <Input id="inq-email" type="email" {...register('email')} className="mt-1" />
-            {errors.email && (
-              <p className="mt-1 text-xs text-destructive">{errors.email.message}</p>
-            )}
+            <Input
+              id="inq-email"
+              type="email"
+              autoComplete="email"
+              {...register('email')}
+              className="mt-1"
+            />
+            {fieldError('email')}
           </div>
           <div>
             <Label htmlFor="inq-tour">{t('form.tourInterest')}</Label>
@@ -116,31 +137,27 @@ export default function ContactInquiryForm() {
           <div>
             <Label htmlFor="inq-message">{t('form.message')}</Label>
             <Textarea id="inq-message" rows={4} {...register('message')} className="mt-1" />
-            {errors.message && (
-              <p className="mt-1 text-xs text-destructive">{errors.message.message}</p>
-            )}
+            {fieldError('message')}
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
-            <Button type="submit" className="flex-1 bg-brand-blue" disabled={submitting}>
-              {submitting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <>
-                  <Mail className="mr-2 h-4 w-4" />
-                  {t('form.submit')}
-                </>
-              )}
+            <Button
+              type="button"
+              className="flex-1 bg-[#25D366] hover:bg-[#20BD5A] text-white"
+              onClick={openWhatsApp}
+            >
+              <span className="mr-2 inline-flex h-4 w-4 shrink-0">
+                <WhatsAppIcon className="text-white" />
+              </span>
+              {t('form.sendWhatsApp')}
             </Button>
             <Button
               type="button"
               variant="outline"
-              className="flex-1 border-[#25D366] text-[#128C7E] hover:bg-[#25D366]/10"
-              onClick={openWhatsApp}
+              className="flex-1 border-brand-blue text-brand-blue hover:bg-brand-blue/5"
+              onClick={openEmail}
             >
-              <span className="mr-2 inline-flex h-4 w-4 shrink-0">
-                <WhatsAppIcon />
-              </span>
-              WhatsApp
+              <Mail className="mr-2 h-4 w-4" />
+              {t('form.sendEmail')}
             </Button>
           </div>
         </form>

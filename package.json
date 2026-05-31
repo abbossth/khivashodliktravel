@@ -7,8 +7,9 @@
   },
   "scripts": {
     "clean": "rm -rf .next",
-    "dev": "next dev",
-    "dev:clean": "npm run clean && next dev",
+    "predev": "node scripts/kill-dev-ports.mjs",
+    "dev": "next dev -p 3000",
+    "dev:clean": "node scripts/kill-dev-ports.mjs && npm run clean && next dev -p 3000",
     "dev:turbo": "npm run clean && next dev --turbo",
     "build": "next build",
     "build:clean": "npm run clean && next build",

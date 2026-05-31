@@ -6,18 +6,16 @@ import Navbar from '@/components/public/Navbar';
 import Footer from '@/components/public/Footer';
 import ErrorBoundary from '@/components/shared/ErrorBoundary';
 import RouteProgress from '@/components/shared/RouteProgress';
+import { Toaster } from '@/components/ui/sonner';
 import { routing } from '@/i18n/routing';
 import { APP_TIME_ZONE } from '@/lib/i18n-config';
 import { logError } from '@/lib/safe';
+import enMessages from '@/messages/en.json';
 
 const WhatsAppButton = dynamic(() => import('@/components/public/WhatsAppButton'), {
   ssr: false,
+  loading: () => null,
 });
-
-const SonnerToaster = dynamic(
-  () => import('@/components/ui/sonner').then((mod) => mod.Toaster),
-  { ssr: false }
-);
 
 /** ISR: public pages revalidate every 5 minutes */
 export const revalidate = 300;
@@ -41,7 +39,7 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
 
-  let messages: Record<string, unknown> = {};
+  let messages: Record<string, unknown> = enMessages as Record<string, unknown>;
   try {
     messages = await getMessages();
   } catch (error) {
@@ -54,14 +52,17 @@ export default async function LocaleLayout({
       messages={messages}
       timeZone={APP_TIME_ZONE}
     >
-      <RouteProgress />
-      <Navbar />
-      <main className="min-h-screen">
-        <ErrorBoundary>{children}</ErrorBoundary>
-      </main>
-      <Footer />
-      <WhatsAppButton />
-      <SonnerToaster position="top-right" richColors />
+      <ErrorBoundary
+        fallbackTitle="Something went wrong"
+        fallbackMessage="The page could not load. Refresh the browser or run npm run dev:clean in the terminal."
+      >
+        <RouteProgress />
+        <Navbar />
+        <main className="min-h-screen">{children}</main>
+        <Footer />
+        <WhatsAppButton />
+        <Toaster position="top-right" richColors />
+      </ErrorBoundary>
     </NextIntlClientProvider>
   );
 }

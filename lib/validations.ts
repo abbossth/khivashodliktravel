@@ -65,6 +65,17 @@ export const bookingFormSchema = z.object({
 
 export type BookingFormValues = z.infer<typeof bookingFormSchema>;
 
+/** Contact page form (strings from HTML inputs). */
+export const inquiryFormSchema = z.object({
+  name: z.string().trim().min(2, 'Name must be at least 2 characters'),
+  email: z.string().trim().email('Enter a valid email address'),
+  phone: z.string().trim().min(5, 'Enter a valid phone number'),
+  tourInterest: z.string().optional(),
+  message: z.string().trim().min(10, 'Message must be at least 10 characters'),
+});
+
+export type InquiryFormValues = z.infer<typeof inquiryFormSchema>;
+
 export const bookingSchema = z.object({
   tourId: z.string().min(1),
   tourTitle: z.string().min(1),

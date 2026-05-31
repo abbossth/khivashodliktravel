@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Loader2, Shield } from 'lucide-react';
 import { BrandLogoMark } from '@/components/shared/BrandLogo';
+import { setAdminAuthCookie } from '@/lib/auth-cookie';
 import { getFirebaseAuthSafe, isFirebaseConfigured } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -34,7 +35,7 @@ export default function AdminLoginPage() {
 
       const credential = await signInWithEmailAndPassword(auth, email, password);
       const token = await credential.user.getIdToken();
-      document.cookie = `admin-token=${token}; path=/; max-age=3600; SameSite=Lax`;
+      setAdminAuthCookie(token);
       router.push('/admin');
     } catch {
       setError(t('errorAuth'));

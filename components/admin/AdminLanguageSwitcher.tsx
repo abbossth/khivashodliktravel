@@ -2,13 +2,6 @@
 
 import { useLocale, useTranslations } from 'next-intl';
 import { Globe } from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { LOCALES, LOCALE_LABELS } from '@/lib/i18n-locales';
 import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 import type { Locale } from '@/types';
@@ -24,24 +17,28 @@ export default function AdminLanguageSwitcher({ className }: AdminLanguageSwitch
   const t = useTranslations('common');
 
   return (
-    <Select value={locale} onValueChange={(next) => next && setAdminLocale(next as Locale)}>
-      <SelectTrigger
-        className={cn(
-          'h-9 w-[130px] gap-2 border-border/80 bg-background',
-          className
-        )}
+    <div className={cn('relative', className)}>
+      <Globe
+        className="pointer-events-none absolute left-2.5 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+        aria-hidden
+      />
+      <select
         aria-label={t('language')}
+        value={locale}
+        onChange={(event) => {
+          const next = event.target.value as Locale;
+          if (next && next !== locale) {
+            setAdminLocale(next);
+          }
+        }}
+        className="h-9 w-[130px] cursor-pointer appearance-none rounded-lg border border-border/80 bg-background py-1.5 pr-8 pl-8 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
       >
-        <Globe className="h-4 w-4 shrink-0 text-muted-foreground" />
-        <SelectValue placeholder={t('language')} />
-      </SelectTrigger>
-      <SelectContent align="end">
         {LOCALES.map((loc) => (
-          <SelectItem key={loc} value={loc}>
+          <option key={loc} value={loc}>
             {LOCALE_LABELS[loc]}
-          </SelectItem>
+          </option>
         ))}
-      </SelectContent>
-    </Select>
+      </select>
+    </div>
   );
 }

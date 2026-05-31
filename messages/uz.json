@@ -87,18 +87,19 @@
     "phoneAlt": "Qo'shimcha telefon",
     "form": {
       "title": "Xabar yuborish",
-      "subtitle": "24 soat ichida javob beramiz.",
+      "subtitle": "Formani to'ldiring, keyin WhatsApp yoki email orqali yuboring.",
       "name": "Ism",
       "email": "Email",
       "phone": "Telefon / WhatsApp",
       "tourInterest": "Tur (ixtiyoriy)",
       "tourPlaceholder": "masalan, uch qal'a sayohati",
       "message": "Xabaringiz",
-      "submit": "Yuborish",
-      "success": "Xabar yuborildi!",
-      "error": "Xatolik. WhatsApp orqali yozing.",
+      "sendWhatsApp": "WhatsApp orqali yuborish",
+      "sendEmail": "Email orqali yuborish",
       "defaultSubject": "Sayt so'rovi",
-      "whatsappIntro": "Salom! Men quyidagi haqida so'ramoqchiman:"
+      "emailSubject": "Sayt so'rovi",
+      "whatsappIntro": "Salom! Men quyidagi haqida so'ramoqchiman:",
+      "none": "—"
     }
   },
   "services": {

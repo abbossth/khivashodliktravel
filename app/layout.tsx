@@ -1,12 +1,20 @@
 import type { Metadata } from 'next';
+import { getSiteUrl } from '@/lib/site';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: 'Khiva Shodlik Travel',
     template: '%s | Khiva Shodlik Travel',
   },
   description: 'Professional tours from Khiva to the Aral Sea - Discover Uzbekistan with us',
+  openGraph: {
+    type: 'website',
+    siteName: 'Khiva Shodlik Travel',
+    locale: 'en_US',
+    alternateLocale: ['ru_RU', 'uz_UZ'],
+  },
   icons: {
     icon: [
       { url: '/brand/favicon-16.png', sizes: '16x16', type: 'image/png' },

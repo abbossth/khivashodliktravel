@@ -15,6 +15,7 @@ import BrandLogo from '@/components/shared/BrandLogo';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { signOut } from 'firebase/auth';
+import { clearAdminAuthCookie } from '@/lib/auth-cookie';
 import { getFirebaseAuthSafe } from '@/lib/firebase';
 
 const NAV_ITEMS = [
@@ -42,7 +43,7 @@ export default function AdminSidebar({ onNavigate, className }: AdminSidebarProp
     } catch {
       /* ignore */
     }
-    document.cookie = 'admin-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    clearAdminAuthCookie();
     router.push('/admin/login');
   };
 

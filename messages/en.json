@@ -87,18 +87,19 @@
     "phoneAlt": "Additional phone",
     "form": {
       "title": "Send a message",
-      "subtitle": "We reply within 24 hours — by email or WhatsApp.",
+      "subtitle": "Fill in the form, then send your message via WhatsApp or email.",
       "name": "Full name",
       "email": "Email",
       "phone": "Phone / WhatsApp",
       "tourInterest": "Tour or transfer (optional)",
       "tourPlaceholder": "e.g. Three Fortresses day trip",
       "message": "Your message",
-      "submit": "Send request",
-      "success": "Message sent! We will contact you soon.",
-      "error": "Could not send. Please try WhatsApp or call us.",
+      "sendWhatsApp": "Send via WhatsApp",
+      "sendEmail": "Send via Email",
       "defaultSubject": "Website inquiry",
-      "whatsappIntro": "Hello! I would like to inquire about:"
+      "emailSubject": "Website inquiry",
+      "whatsappIntro": "Hello! I would like to inquire about:",
+      "none": "—"
     }
   },
   "services": {
