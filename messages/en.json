@@ -1,0 +1,265 @@
+{
+  "nav": {
+    "home": "Home",
+    "tours": "Tours",
+    "blog": "Blog",
+    "contact": "Contact",
+    "bookTour": "Book a tour"
+  },
+  "hero": {
+    "title": "Discover Uzbekistan with Us",
+    "subtitle": "Professional tours from Khiva to the Aral Sea",
+    "badge": "Khiva · Khorezm · Karakalpakstan",
+    "cta": "Explore Tours",
+    "ctaSecondary": "Contact us"
+  },
+  "whyUs": {
+    "title": "Why Choose Us",
+    "items": {
+      "experience": {
+        "title": "Expert Guides",
+        "description": "Licensed local guides with years of experience"
+      },
+      "comfort": {
+        "title": "Comfortable Travel",
+        "description": "Modern vehicles and carefully planned routes"
+      },
+      "price": {
+        "title": "Best Value",
+        "description": "Competitive prices with no hidden fees"
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "We are always here to help you"
+      }
+    }
+  },
+  "tours": {
+    "title": "Our Tours",
+    "subtitle": "Explore the best of Uzbekistan",
+    "featured": "Featured Tours",
+    "allTours": "All Tours",
+    "related": "Related Tours",
+    "bookNow": "Book Now",
+    "viewDetails": "View Details",
+    "from": "From",
+    "perPerson": "per person",
+    "duration": "Duration",
+    "groupSize": "Group Size",
+    "categories": {
+      "all": "All",
+      "daytrip": "Day Trips",
+      "multiday": "Multi-day",
+      "shared": "Shared",
+      "private": "Private",
+      "transfer": "Transfers"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "itinerary": "Itinerary",
+      "includes": "Includes & Excludes"
+    },
+    "includes": "Includes",
+    "excludes": "Excludes",
+    "highlights": "Highlights",
+    "day": "Day",
+    "featuredBadge": "Featured",
+    "empty": "No tours match this category yet. Check back soon or contact us for a custom trip."
+  },
+  "blog": {
+    "title": "Travel Blog",
+    "subtitle": "Stories and tips from our journeys",
+    "recent": "Recent Posts",
+    "readMore": "Read More",
+    "backToBlog": "Back to Blog",
+    "empty": "No blog posts yet. Check back soon."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch for custom tours and inquiries",
+    "addressLabel": "Address",
+    "address": "Khiva, Xorazm Region, Uzbekistan",
+    "ctaTours": "Browse our tours",
+    "phone": "WhatsApp / Phone",
+    "email": "Email",
+    "hours": "Working Hours",
+    "hoursValue": "Mon – Sun: 8:00 AM – 8:00 PM",
+    "phoneAlt": "Additional phone",
+    "form": {
+      "title": "Send a message",
+      "subtitle": "We reply within 24 hours — by email or WhatsApp.",
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone / WhatsApp",
+      "tourInterest": "Tour or transfer (optional)",
+      "tourPlaceholder": "e.g. Three Fortresses day trip",
+      "message": "Your message",
+      "submit": "Send request",
+      "success": "Message sent! We will contact you soon.",
+      "error": "Could not send. Please try WhatsApp or call us.",
+      "defaultSubject": "Website inquiry",
+      "whatsappIntro": "Hello! I would like to inquire about:"
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Tours and transfers across Khorezm, Karakalpakstan and Uzbekistan",
+    "items": {
+      "privateDay": {
+        "title": "Private Day Trips",
+        "description": "Ancient Khorezm fortresses on your schedule with a private driver."
+      },
+      "sharedDay": {
+        "title": "Shared Day Trips",
+        "description": "Daily group tour to Three Fortresses from Khiva — from $20 per person."
+      },
+      "twoDay": {
+        "title": "Two-day Trips",
+        "description": "Yurt camps and desert fortresses over two unforgettable days."
+      },
+      "aral": {
+        "title": "Aral Sea Adventures",
+        "description": "Muynak, ship cemetery, Ustyurt Canyons and the Aral shore."
+      },
+      "transfers": {
+        "title": "Private Transfers",
+        "description": "Door-to-door transfers between Khiva, Nukus, Bukhara and more."
+      },
+      "team": {
+        "title": "Our Fleet",
+        "description": "Sedans, SUVs, minivans and buses for every group size."
+      }
+    }
+  },
+  "gallery": {
+    "title": "Photo Gallery",
+    "subtitle": "Scenes from Khiva, Khorezm and the Aral region"
+  },
+  "reviews": {
+    "title": "Traveler Reviews",
+    "subtitle": "Rated excellent on Google, Trustpilot & Tripadvisor",
+    "trustedOn": "Trusted on",
+    "highlights": "What our guests say",
+    "reviewsCount": "reviews",
+    "readOn": "Read on {platform}",
+    "platforms": {
+      "google": "Google",
+      "trustpilot": "Trustpilot",
+      "tripadvisor": "Tripadvisor"
+    },
+    "postedOn": {
+      "google": "Posted on Google",
+      "trustpilot": "Posted on Trustpilot",
+      "tripadvisor": "Posted on Tripadvisor"
+    },
+    "writeReview": "Leave a review on Google"
+  },
+  "about": {
+    "title": "About Khiva Shodlik Travel",
+    "subtitle": "Your local partner in Khiva since day one",
+    "body": "We are a travel agency based in Khiva, Uzbekistan, offering private and shared tours of ancient Khorezm fortresses, Aral Sea adventures, and transfers across Uzbekistan. Our English-speaking drivers pick you up at your hotel for an unforgettable journey through one of Central Asia's richest historical regions."
+  },
+  "booking": {
+    "title": "Book This Tour",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "date": "Preferred Date",
+    "guests": "Number of Guests",
+    "message": "Special Requests",
+    "submit": "Send Booking Request",
+    "success": "Your request has been sent! We'll contact you shortly.",
+    "error": "Something went wrong. Please try again."
+  },
+  "footer": {
+    "address": "Khiva, Xorazm Region, Uzbekistan",
+    "description": "Your trusted travel partner in Khiva and beyond. Discover the magic of Uzbekistan with us.",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Info",
+    "rights": "All rights reserved."
+  },
+  "cta": {
+    "title": "Ready for Your Adventure?",
+    "subtitle": "Contact us today to plan your perfect trip",
+    "button": "Get in Touch"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "notFound": "Page not found",
+    "backHome": "Back to Home",
+    "language": "Language"
+  },
+  "admin": {
+    "panel": "Admin panel",
+    "badge": "Admin",
+    "logout": "Logout",
+    "login": {
+      "title": "Admin sign in",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "errorAuth": "Invalid email or password. Please try again.",
+      "errorConfig": "Admin login is not configured. Contact the site administrator."
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "tours": "Tours",
+      "blog": "Blog",
+      "bookings": "Bookings",
+      "inquiries": "Inquiries"
+    },
+    "pages": {
+      "dashboard": "Dashboard",
+      "tours": "Tours",
+      "newTour": "New tour",
+      "editTour": "Edit tour",
+      "blog": "Blog posts",
+      "newPost": "New post",
+      "editPost": "Edit post",
+      "bookings": "Bookings",
+      "inquiries": "Inquiries",
+      "default": "Admin"
+    },
+    "imageUploader": {
+      "dropTitle": "Upload image",
+      "dropHint": "Drag & drop or click — PNG, JPG, WebP",
+      "urlLabel": "Image URL",
+      "urlHint": "Paste a link (/images/... or https://) or use the URL shown after upload",
+      "urlPlaceholder": "/images/hero.jpg or https://...",
+      "addUrl": "Add image",
+      "applyUrl": "Apply URL",
+      "urlValid": "Valid image URL",
+      "urlRequired": "Enter an image URL",
+      "urlInvalid": "URL must start with /images/ or https://",
+      "urlDuplicate": "This image is already in the gallery",
+      "urlAdded": "Image URL saved",
+      "uploadedOne": "Image uploaded",
+      "uploadedMany": "{count} images uploaded",
+      "uploadFailed": "Upload failed. Check your connection and try again.",
+      "signInRequired": "Please sign in to upload images",
+      "gallery": "{count, plural, one {# image} other {# images}}",
+      "preview": "Preview",
+      "cover": "Cover",
+      "setCover": "Set cover",
+      "remove": "Remove",
+      "clickToShowUrl": "Show URL in the field above"
+    },
+    "pagination": {
+      "ariaLabel": "Table pagination",
+      "showing": "Showing {from}–{to} of {total}",
+      "rowsPerPage": "Rows",
+      "first": "First page",
+      "previous": "Previous page",
+      "next": "Next page",
+      "last": "Last page",
+      "page": "Page {page}",
+      "pageOf": "{page} / {totalPages}",
+      "searchPlaceholder": "Search…",
+      "clearSearch": "Clear search",
+      "countTotal": "{count, plural, one {# item} other {# items}}",
+      "countFiltered": "{filtered} of {total} items"
+    }
+  }
+}

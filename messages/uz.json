@@ -1,0 +1,244 @@
+{
+  "nav": {
+    "home": "Bosh sahifa",
+    "tours": "Turlar",
+    "blog": "Blog",
+    "contact": "Aloqa",
+    "bookTour": "Tur bron qilish"
+  },
+  "hero": {
+    "title": "O'zbekistonni biz bilan kashf eting",
+    "subtitle": "Xivadan Orol dengizigacha professional turlar",
+    "badge": "Xiva · Xorazm · Qoraqalpog'iston",
+    "cta": "Turlarni ko'rish",
+    "ctaSecondary": "Biz bilan bog'lanish"
+  },
+  "whyUs": {
+    "title": "Nega bizni tanlaysiz",
+    "items": {
+      "experience": {
+        "title": "Tajribali gidlar",
+        "description": "Ko'p yillik tajribaga ega litsenziyalangan mahalliy gidlar"
+      },
+      "comfort": {
+        "title": "Qulay sayohat",
+        "description": "Zamonaviy transport va puxta rejalashtirilgan marshrutlar"
+      },
+      "price": {
+        "title": "Eng yaxshi narx",
+        "description": "Yashirin to'lovlarsiz raqobatbardosh narxlar"
+      },
+      "support": {
+        "title": "24/7 qo'llab-quvvatlash",
+        "description": "Biz doimo yordam berishga tayyormiz"
+      }
+    }
+  },
+  "tours": {
+    "title": "Bizning turlar",
+    "subtitle": "O'zbekistonning eng yaxshi joylarini kashf eting",
+    "featured": "Tavsiya etilgan turlar",
+    "allTours": "Barcha turlar",
+    "related": "O'xshash turlar",
+    "bookNow": "Bron qilish",
+    "viewDetails": "Batafsil",
+    "from": "Dan",
+    "perPerson": "kishiga",
+    "duration": "Davomiyligi",
+    "groupSize": "Guruh hajmi",
+    "categories": {
+      "all": "Hammasi",
+      "daytrip": "Kunlik",
+      "multiday": "Ko'p kunlik",
+      "shared": "Umumiy",
+      "private": "Shaxsiy",
+      "transfer": "Transferlar"
+    },
+    "tabs": {
+      "overview": "Umumiy",
+      "itinerary": "Marshrut",
+      "includes": "Kiritilgan va kiritilmagan"
+    },
+    "includes": "Kiritilgan",
+    "excludes": "Kiritilmagan",
+    "highlights": "Diqqatga sazovor joylar",
+    "day": "Kun",
+    "featuredBadge": "Tavsiya",
+    "empty": "Bu kategoriyada hozircha turlar yo'q. Maxsus tur uchun biz bilan bog'laning."
+  },
+  "blog": {
+    "title": "Sayohat blogi",
+    "subtitle": "Sayohatlarimizdan hikoyalar va maslahatlar",
+    "recent": "So'nggi postlar",
+    "readMore": "Ko'proq o'qish",
+    "backToBlog": "Blogga qaytish",
+    "empty": "Hozircha postlar yo'q. Tez orada qaytib keling."
+  },
+  "contact": {
+    "title": "Biz bilan bog'laning",
+    "subtitle": "Maxsus turlar va savollar uchun biz bilan bog'laning",
+    "addressLabel": "Manzil",
+    "address": "Xiva, Xorazm viloyati, O'zbekiston",
+    "ctaTours": "Turlarimizni ko'ring",
+    "phone": "WhatsApp / Telefon",
+    "email": "Email",
+    "hours": "Ish vaqti",
+    "hoursValue": "Du – Yak: 8:00 – 20:00",
+    "phoneAlt": "Qo'shimcha telefon",
+    "form": {
+      "title": "Xabar yuborish",
+      "subtitle": "24 soat ichida javob beramiz.",
+      "name": "Ism",
+      "email": "Email",
+      "phone": "Telefon / WhatsApp",
+      "tourInterest": "Tur (ixtiyoriy)",
+      "tourPlaceholder": "masalan, uch qal'a sayohati",
+      "message": "Xabaringiz",
+      "submit": "Yuborish",
+      "success": "Xabar yuborildi!",
+      "error": "Xatolik. WhatsApp orqali yozing.",
+      "defaultSubject": "Sayt so'rovi",
+      "whatsappIntro": "Salom! Men quyidagi haqida so'ramoqchiman:"
+    }
+  },
+  "services": {
+    "title": "Xizmatlarimiz",
+    "subtitle": "Xorazm, Qoraqalpog'iston va O'zbekiston bo'ylab turlar",
+    "items": {
+      "privateDay": { "title": "Shaxsiy kunlik turlar", "description": "Qadimgi qal'alar shaxsiy haydovchi bilan." },
+      "sharedDay": { "title": "Guruhli turlar", "description": "Uch qal'a — kishi boshiga $20 dan." },
+      "twoDay": { "title": "2 kunlik turlar", "description": "Yurta va cho'l qal'alari." },
+      "aral": { "title": "Orol dengizi", "description": "Mo'ynoq, kemalar qabristoni." },
+      "transfers": { "title": "Transferlar", "description": "Xiva, Nukus, Buxoro o'rtasida." },
+      "team": { "title": "Avtopark", "description": "Sedan, SUV, miniven." }
+    }
+  },
+  "gallery": { "title": "Foto galereya", "subtitle": "Xiva va Xorazm manzaralari" },
+  "reviews": {
+    "title": "Sayohatchilar sharhlari",
+    "subtitle": "Google, Trustpilot va Tripadvisor'da yuqori reyting",
+    "trustedOn": "Ishonchli platformalar",
+    "highlights": "Mehmonlarimiz nima deyishadi",
+    "reviewsCount": "sharh",
+    "readOn": "{platform}da o'qish",
+    "platforms": {
+      "google": "Google",
+      "trustpilot": "Trustpilot",
+      "tripadvisor": "Tripadvisor"
+    },
+    "postedOn": {
+      "google": "Google'da e'lon qilingan",
+      "trustpilot": "Trustpilot'da e'lon qilingan",
+      "tripadvisor": "Tripadvisor'da e'lon qilingan"
+    },
+    "writeReview": "Google'da sharh qoldiring"
+  },
+  "about": {
+    "title": "Khiva Shodlik Travel haqida",
+    "subtitle": "Xivadagi mahalliy hamkoringiz",
+    "body": "Xorazm qal'alari, Orol dengizi sayohatlari va O'zbekiston bo'ylab transferlarni tashkil qilamiz."
+  },
+  "booking": {
+    "title": "Tur bron qilish",
+    "name": "To'liq ism",
+    "email": "Email manzil",
+    "phone": "Telefon raqami",
+    "date": "Afzal ko'rgan sana",
+    "guests": "Mehmonlar soni",
+    "message": "Maxsus so'rovlar",
+    "submit": "So'rov yuborish",
+    "success": "So'rovingiz yuborildi! Tez orada siz bilan bog'lanamiz.",
+    "error": "Nimadir xato ketdi. Iltimos, qayta urinib ko'ring."
+  },
+  "footer": {
+    "address": "Xiva, Xorazm viloyati, O'zbekiston",
+    "description": "Xiva va undan tashqarida ishonchli sayohat hamkoringiz. O'zbekiston sehrini biz bilan kashf eting.",
+    "quickLinks": "Tez havolalar",
+    "contactInfo": "Aloqa ma'lumotlari",
+    "rights": "Barcha huquqlar himoyalangan."
+  },
+  "cta": {
+    "title": "Sarguzashtga tayyormisiz?",
+    "subtitle": "Mukammal sayohatingizni rejalashtirish uchun bugun biz bilan bog'laning",
+    "button": "Bog'lanish"
+  },
+  "common": {
+    "loading": "Yuklanmoqda...",
+    "error": "Nimadir xato ketdi",
+    "notFound": "Sahifa topilmadi",
+    "backHome": "Bosh sahifaga",
+    "language": "Til"
+  },
+  "admin": {
+    "panel": "Admin panel",
+    "badge": "Admin",
+    "logout": "Chiqish",
+    "login": {
+      "title": "Admin kirish",
+      "email": "Email",
+      "password": "Parol",
+      "submit": "Kirish",
+      "submitting": "Kirish…",
+      "errorAuth": "Email yoki parol noto‘g‘ri.",
+      "errorConfig": "Admin kirish sozlanmagan. Sayt administratoriga murojaat qiling."
+    },
+    "nav": {
+      "dashboard": "Bosh sahifa",
+      "tours": "Turlar",
+      "blog": "Blog",
+      "bookings": "Bronlar",
+      "inquiries": "Murojaatlar"
+    },
+    "pages": {
+      "dashboard": "Bosh sahifa",
+      "tours": "Turlar",
+      "newTour": "Yangi tur",
+      "editTour": "Turni tahrirlash",
+      "blog": "Blog yozuvlari",
+      "newPost": "Yangi yozuv",
+      "editPost": "Yozuvni tahrirlash",
+      "bookings": "Bronlar",
+      "inquiries": "Murojaatlar",
+      "default": "Admin"
+    },
+    "imageUploader": {
+      "dropTitle": "Rasm yuklash",
+      "dropHint": "Sudrab tashlang yoki bosing — PNG, JPG, WebP",
+      "urlLabel": "Rasm URL",
+      "urlHint": "Havola joylang (/images/... yoki https://) yoki yuklagandan keyingi URLdan foydalaning",
+      "urlPlaceholder": "/images/hero.jpg yoki https://...",
+      "addUrl": "Rasm qo‘shish",
+      "applyUrl": "URLni qo‘llash",
+      "urlValid": "To‘g‘ri rasm URL",
+      "urlRequired": "Rasm URL kiriting",
+      "urlInvalid": "URL /images/ yoki https:// bilan boshlanishi kerak",
+      "urlDuplicate": "Bu rasm allaqachon qo‘shilgan",
+      "urlAdded": "Rasm URL saqlandi",
+      "uploadedOne": "Rasm yuklandi",
+      "uploadedMany": "{count} ta rasm yuklandi",
+      "uploadFailed": "Yuklash xatosi. Internetni tekshiring.",
+      "signInRequired": "Rasm yuklash uchun tizimga kiring",
+      "gallery": "{count} ta rasm",
+      "preview": "Ko‘rinish",
+      "cover": "Muqova",
+      "setCover": "Muqova qilish",
+      "remove": "O‘chirish",
+      "clickToShowUrl": "Yuqoridagi maydonda URLni ko‘rsatish"
+    },
+    "pagination": {
+      "ariaLabel": "Sahifalar bo‘yicha navigatsiya",
+      "showing": "{total} tadan {from}–{to} ko‘rsatilmoqda",
+      "rowsPerPage": "Qator",
+      "first": "Birinchi sahifa",
+      "previous": "Oldingi",
+      "next": "Keyingi",
+      "last": "Oxirgi sahifa",
+      "page": "{page}-sahifa",
+      "pageOf": "{page} / {totalPages}",
+      "searchPlaceholder": "Qidirish…",
+      "clearSearch": "Qidiruvni tozalash",
+      "countTotal": "{count} ta yozuv",
+      "countFiltered": "{total} tadan {filtered} ta"
+    }
+  }
+}

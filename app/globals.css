@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 215 28% 17%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 28% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 28% 17%;
+    --primary: 210 55% 23%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 30% 94%;
+    --secondary-foreground: 215 28% 17%;
+    --muted: 210 25% 94%;
+    --muted-foreground: 215 16% 42%;
+    --accent: 24 95% 53%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 24% 88%;
+    --input: 214 24% 88%;
+    --ring: 210 55% 23%;
+    --radius: 0.75rem;
+    --brand-blue: 210 55% 23%;
+    --brand-orange: 24 95% 53%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .rich-content {
+    @apply prose prose-slate max-w-none prose-headings:text-brand-blue prose-a:text-brand-orange prose-img:rounded-lg;
+  }
+
+  .card-elevated {
+    @apply rounded-xl border bg-card shadow-sm transition-shadow hover:shadow-md;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .hero-gradient {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--brand-blue) / 0.88) 0%,
+      hsl(var(--brand-blue) / 0.55) 45%,
+      hsl(var(--brand-blue) / 0.75) 100%
+    );
+  }
+}

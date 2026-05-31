@@ -1,0 +1,244 @@
+{
+  "nav": {
+    "home": "Главная",
+    "tours": "Туры",
+    "blog": "Блог",
+    "contact": "Контакты",
+    "bookTour": "Забронировать тур"
+  },
+  "hero": {
+    "title": "Откройте Узбекистан с нами",
+    "subtitle": "Профессиональные туры от Хивы до Аральского моря",
+    "badge": "Хива · Хорезм · Каракалпакстан",
+    "cta": "Смотреть туры",
+    "ctaSecondary": "Связаться с нами"
+  },
+  "whyUs": {
+    "title": "Почему мы",
+    "items": {
+      "experience": {
+        "title": "Опытные гиды",
+        "description": "Лицензированные местные гиды с многолетним опытом"
+      },
+      "comfort": {
+        "title": "Комфортные поездки",
+        "description": "Современный транспорт и тщательно спланированные маршруты"
+      },
+      "price": {
+        "title": "Лучшие цены",
+        "description": "Конкурентные цены без скрытых платежей"
+      },
+      "support": {
+        "title": "Поддержка 24/7",
+        "description": "Мы всегда готовы помочь вам"
+      }
+    }
+  },
+  "tours": {
+    "title": "Наши туры",
+    "subtitle": "Исследуйте лучшее в Узбекистане",
+    "featured": "Рекомендуемые туры",
+    "allTours": "Все туры",
+    "related": "Похожие туры",
+    "bookNow": "Забронировать",
+    "viewDetails": "Подробнее",
+    "from": "От",
+    "perPerson": "с человека",
+    "duration": "Длительность",
+    "groupSize": "Размер группы",
+    "categories": {
+      "all": "Все",
+      "daytrip": "Однодневные",
+      "multiday": "Многодневные",
+      "shared": "Групповые",
+      "private": "Частные",
+      "transfer": "Трансферы"
+    },
+    "tabs": {
+      "overview": "Обзор",
+      "itinerary": "Маршрут",
+      "includes": "Включено и не включено"
+    },
+    "includes": "Включено",
+    "excludes": "Не включено",
+    "highlights": "Особенности",
+    "day": "День",
+    "featuredBadge": "Рекомендуем",
+    "empty": "В этой категории пока нет туров. Свяжитесь с нами для индивидуального тура."
+  },
+  "blog": {
+    "title": "Блог о путешествиях",
+    "subtitle": "Истории и советы из наших путешествий",
+    "recent": "Последние записи",
+    "readMore": "Читать далее",
+    "backToBlog": "Назад к блогу",
+    "empty": "Записей пока нет. Загляните позже."
+  },
+  "contact": {
+    "title": "Свяжитесь с нами",
+    "subtitle": "Свяжитесь с нами для индивидуальных туров и запросов",
+    "addressLabel": "Адрес",
+    "address": "Хива, Хорезмская область, Узбекистан",
+    "ctaTours": "Смотреть туры",
+    "phone": "WhatsApp / Телефон",
+    "email": "Email",
+    "hours": "Рабочие часы",
+    "hoursValue": "Пн – Вс: 8:00 – 20:00",
+    "phoneAlt": "Доп. телефон",
+    "form": {
+      "title": "Написать нам",
+      "subtitle": "Ответим в течение 24 часов.",
+      "name": "Имя",
+      "email": "Email",
+      "phone": "Телефон / WhatsApp",
+      "tourInterest": "Тур (необязательно)",
+      "tourPlaceholder": "напр. тур к трём крепостям",
+      "message": "Сообщение",
+      "submit": "Отправить",
+      "success": "Сообщение отправлено!",
+      "error": "Ошибка отправки. Напишите в WhatsApp.",
+      "defaultSubject": "Запрос с сайта",
+      "whatsappIntro": "Здравствуйте! Интересует:"
+    }
+  },
+  "services": {
+    "title": "Наши услуги",
+    "subtitle": "Туры и трансферы по Хорезму и Узбекистану",
+    "items": {
+      "privateDay": { "title": "Частные однодневные", "description": "Крепости Хорезма с частным водителем." },
+      "sharedDay": { "title": "Групповые туры", "description": "Ежедневный тур к трём крепостям от $20." },
+      "twoDay": { "title": "Двухдневные", "description": "Юрты и крепости за 2 дня." },
+      "aral": { "title": "Аральское море", "description": "Муйнак, кладбище кораблей, каньоны." },
+      "transfers": { "title": "Трансферы", "description": "Между Хивой, Нукусом, Бухарой." },
+      "team": { "title": "Автопарк", "description": "Седаны, SUV, микроавтобусы." }
+    }
+  },
+  "gallery": { "title": "Фотогалерея", "subtitle": "Хива, Хорезм и Арал" },
+  "reviews": {
+    "title": "Отзывы путешественников",
+    "subtitle": "Высокий рейтинг в Google, Trustpilot и Tripadvisor",
+    "trustedOn": "Нам доверяют на",
+    "highlights": "Что говорят гости",
+    "reviewsCount": "отзывов",
+    "readOn": "Читать на {platform}",
+    "platforms": {
+      "google": "Google",
+      "trustpilot": "Trustpilot",
+      "tripadvisor": "Tripadvisor"
+    },
+    "postedOn": {
+      "google": "Отзыв в Google",
+      "trustpilot": "Отзыв на Trustpilot",
+      "tripadvisor": "Отзыв на Tripadvisor"
+    },
+    "writeReview": "Оставить отзыв в Google"
+  },
+  "about": {
+    "title": "О Khiva Shodlik Travel",
+    "subtitle": "Местное агентство в Хиве",
+    "body": "Мы организуем частные и групповые туры по крепостям Хорезма, приключения на Аральское море и трансферы по Узбекистану."
+  },
+  "booking": {
+    "title": "Забронировать тур",
+    "name": "Полное имя",
+    "email": "Email адрес",
+    "phone": "Номер телефона",
+    "date": "Предпочитаемая дата",
+    "guests": "Количество гостей",
+    "message": "Особые пожелания",
+    "submit": "Отправить запрос",
+    "success": "Ваш запрос отправлен! Мы свяжемся с вами в ближайшее время.",
+    "error": "Что-то пошло не так. Пожалуйста, попробуйте снова."
+  },
+  "footer": {
+    "address": "Хива, Хорезмская область, Узбекистан",
+    "description": "Ваш надежный партнер в путешествиях по Хиве и за ее пределами. Откройте магию Узбекистана с нами.",
+    "quickLinks": "Быстрые ссылки",
+    "contactInfo": "Контактная информация",
+    "rights": "Все права защищены."
+  },
+  "cta": {
+    "title": "Готовы к приключению?",
+    "subtitle": "Свяжитесь с нами сегодня, чтобы спланировать идеальное путешествие",
+    "button": "Связаться"
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Что-то пошло не так",
+    "notFound": "Страница не найдена",
+    "backHome": "На главную",
+    "language": "Язык"
+  },
+  "admin": {
+    "panel": "Панель администратора",
+    "badge": "Админ",
+    "logout": "Выйти",
+    "login": {
+      "title": "Вход в админку",
+      "email": "Email",
+      "password": "Пароль",
+      "submit": "Войти",
+      "submitting": "Вход…",
+      "errorAuth": "Неверный email или пароль.",
+      "errorConfig": "Вход не настроен. Свяжитесь с администратором сайта."
+    },
+    "nav": {
+      "dashboard": "Главная",
+      "tours": "Туры",
+      "blog": "Блог",
+      "bookings": "Бронирования",
+      "inquiries": "Заявки"
+    },
+    "pages": {
+      "dashboard": "Главная",
+      "tours": "Туры",
+      "newTour": "Новый тур",
+      "editTour": "Редактировать тур",
+      "blog": "Записи блога",
+      "newPost": "Новая запись",
+      "editPost": "Редактировать запись",
+      "bookings": "Бронирования",
+      "inquiries": "Заявки",
+      "default": "Админ"
+    },
+    "imageUploader": {
+      "dropTitle": "Загрузить изображение",
+      "dropHint": "Перетащите или выберите — PNG, JPG, WebP",
+      "urlLabel": "URL изображения",
+      "urlHint": "Вставьте ссылку (/images/... или https://) или используйте URL после загрузки",
+      "urlPlaceholder": "/images/hero.jpg или https://...",
+      "addUrl": "Добавить",
+      "applyUrl": "Применить URL",
+      "urlValid": "Корректный URL изображения",
+      "urlRequired": "Введите URL изображения",
+      "urlInvalid": "URL должен начинаться с /images/ или https://",
+      "urlDuplicate": "Это изображение уже добавлено",
+      "urlAdded": "URL изображения сохранён",
+      "uploadedOne": "Изображение загружено",
+      "uploadedMany": "Загружено изображений: {count}",
+      "uploadFailed": "Ошибка загрузки. Проверьте соединение.",
+      "signInRequired": "Войдите, чтобы загружать изображения",
+      "gallery": "{count, plural, one {# изображение} few {# изображения} many {# изображений} other {# изображения}}",
+      "preview": "Превью",
+      "cover": "Обложка",
+      "setCover": "Сделать обложкой",
+      "remove": "Удалить",
+      "clickToShowUrl": "Показать URL в поле выше"
+    },
+    "pagination": {
+      "ariaLabel": "Навигация по страницам",
+      "showing": "Показано {from}–{to} из {total}",
+      "rowsPerPage": "Строк",
+      "first": "Первая страница",
+      "previous": "Предыдущая",
+      "next": "Следующая",
+      "last": "Последняя",
+      "page": "Страница {page}",
+      "pageOf": "{page} / {totalPages}",
+      "searchPlaceholder": "Поиск…",
+      "clearSearch": "Очистить поиск",
+      "countTotal": "{count, plural, one {# запись} few {# записи} many {# записей} other {# записи}}",
+      "countFiltered": "{filtered} из {total}"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Khiva Shodlik Travel">
+  <rect width="64" height="64" rx="14" fill="#1a3a5c"/>
+  <!-- Ichan Kala skyline: minaret, domes, walls -->
+  <path d="M32 10v34" stroke="#34d399" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M32 10c-2 0-3.5 1.8-3.5 4.2 0 2 1.2 3.6 3 4.5-1.8.9-3 2.5-3 4.5 0 2.4 1.5 4.2 3.5 4.2s3.5-1.8 3.5-4.2c0-2-1.2-3.6-3-4.5 1.8-.9 3-2.5 3-4.5C35.5 11.8 34 10 32 10z" fill="#f97316"/>
+  <ellipse cx="32" cy="48" rx="18" ry="3" fill="#0f2740" opacity=".35"/>
+  <path d="M10 44h44v6H10z" fill="#c46b3a"/>
+  <path d="M10 44h44v2H10z" fill="#d4844f"/>
+  <path d="M14 38h8v6h-8zM22 40h10v4H22zM42 40h10v4H42zM32 36h10v8H32z" fill="#e8c4a8"/>
+  <path d="M18 34c0-3 2.5-5 6-5h16c3.5 0 6 2 6 5v4H18v-4z" fill="#1e4d6e"/>
+  <circle cx="24" cy="33" r="3.5" fill="#22d3ee" opacity=".9"/>
+  <circle cx="40" cy="33" r="3.5" fill="#22d3ee" opacity=".9"/>
+  <path d="M28 44h8v6h-8z" fill="#1a3a5c"/>
+  <path d="M30 18h4v8h-4z" fill="#34d399"/>
+</svg>
