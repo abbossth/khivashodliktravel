@@ -9,6 +9,7 @@ import TourGrid from '@/components/public/TourGrid';
 import SectionHeading from '@/components/shared/SectionHeading';
 import SafeHtml from '@/components/shared/SafeHtml';
 import { getTourBySlug, getTours, getAllTourSlugs } from '@/lib/data';
+import { getStaticTourBuildLimit } from '@/lib/static-build';
 import { routing } from '@/i18n/routing';
 import type { Locale } from '@/types';
 import { getLocalizedField, getLocalizedArray } from '@/types';
@@ -20,10 +21,22 @@ const BookingForm = dynamic(() => import('@/components/public/BookingForm'), {
 });
 
 export const revalidate = 300;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const slugs = await getAllTourSlugs();
-  return routing.locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
+  try {
+    const slugs = await getAllTourSlugs();
+    if (!slugs.length) return [];
+
+    const limit = getStaticTourBuildLimit();
+    const buildSlugs = limit ? slugs.slice(0, limit) : slugs;
+
+    return routing.locales.flatMap((locale) =>
+      buildSlugs.map((slug) => ({ locale, slug }))
+    );
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({

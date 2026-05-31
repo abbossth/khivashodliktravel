@@ -2,6 +2,9 @@
   "name": "khivashodliktravel",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=18.17.0"
+  },
   "scripts": {
     "clean": "rm -rf .next",
     "dev": "next dev",
@@ -36,7 +39,6 @@
     "react-dom": "^18",
     "react-dropzone": "^15.0.0",
     "react-hook-form": "^7.76.1",
-    "shadcn": "^4.8.3",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.6.0",
     "tailwindcss-animate": "^1.0.7",

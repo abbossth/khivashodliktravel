@@ -140,15 +140,19 @@
   },
   "booking": {
     "title": "Tur bron qilish",
+    "subtitle": "Ma'lumotlarni to'ldiring, keyin WhatsApp yoki email orqali yuboring.",
     "name": "To'liq ism",
     "email": "Email manzil",
     "phone": "Telefon raqami",
     "date": "Afzal ko'rgan sana",
     "guests": "Mehmonlar soni",
     "message": "Maxsus so'rovlar",
-    "submit": "So'rov yuborish",
-    "success": "So'rovingiz yuborildi! Tez orada siz bilan bog'lanamiz.",
-    "error": "Nimadir xato ketdi. Iltimos, qayta urinib ko'ring."
+    "labelTour": "Tur",
+    "bookWhatsApp": "WhatsApp orqali bron qilish",
+    "bookEmail": "Email orqali bron qilish",
+    "whatsappIntro": "Assalomu alaykum! Quyidagi turni bron qilmoqchiman:",
+    "emailSubject": "Tur bron qilish so'rovi",
+    "none": "—"
   },
   "footer": {
     "address": "Xiva, Xorazm viloyati, O'zbekiston",

@@ -1,17 +1,20 @@
 'use client';
 
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslations } from 'next-intl';
-import { Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
+import { useLocale, useTranslations } from 'next-intl';
+import { Mail } from 'lucide-react';
+import WhatsAppIcon from '@/components/shared/WhatsAppIcon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { parseJsonResponse } from '@/hooks/useSafeFetch';
+import {
+  buildBookingMailtoUrl,
+  buildBookingWhatsAppUrl,
+  type BookingMessageLabels,
+} from '@/lib/booking-outreach';
 import { bookingFormSchema, type BookingFormValues } from '@/lib/validations';
 
 interface BookingFormProps {
@@ -19,14 +22,13 @@ interface BookingFormProps {
   tourTitle: string;
 }
 
-export default function BookingForm({ tourId, tourTitle }: BookingFormProps) {
+export default function BookingForm({ tourTitle }: BookingFormProps) {
   const t = useTranslations('booking');
-  const [submitting, setSubmitting] = useState(false);
+  const locale = useLocale();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<BookingFormValues>({
     resolver: zodResolver(bookingFormSchema),
@@ -40,50 +42,37 @@ export default function BookingForm({ tourId, tourTitle }: BookingFormProps) {
     },
   });
 
-  const onSubmit = async (data: BookingFormValues) => {
-    setSubmitting(true);
-    try {
-      const parsedDate = new Date(`${data.date}T12:00:00`);
-      if (Number.isNaN(parsedDate.getTime())) {
-        toast.error(t('error'));
-        return;
-      }
-
-      const res = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tourId,
-          tourTitle,
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          date: parsedDate.toISOString(),
-          guests: Number(data.guests),
-          message: data.message ?? '',
-        }),
-      });
-
-      const parsed = await parseJsonResponse(res);
-      if (!parsed.ok) {
-        throw new Error(parsed.error ?? 'Failed');
-      }
-
-      toast.success(t('success'));
-      reset({
-        name: '',
-        email: '',
-        phone: '',
-        date: '',
-        guests: '1',
-        message: '',
-      });
-    } catch {
-      toast.error(t('error'));
-    } finally {
-      setSubmitting(false);
-    }
+  const labels: BookingMessageLabels = {
+    intro: t('whatsappIntro'),
+    tour: t('labelTour'),
+    name: t('name'),
+    email: t('email'),
+    phone: t('phone'),
+    date: t('date'),
+    guests: t('guests'),
+    message: t('message'),
+    emailSubject: t('emailSubject'),
+    none: t('none'),
   };
+
+  const toPayload = (data: BookingFormValues) => ({
+    tourTitle,
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    date: data.date,
+    guests: data.guests,
+    message: data.message,
+  });
+
+  const openWhatsApp = handleSubmit((data) => {
+    const url = buildBookingWhatsAppUrl(toPayload(data), labels, locale);
+    window.open(url, '_blank', 'noopener,noreferrer');
+  });
+
+  const openEmail = handleSubmit((data) => {
+    window.location.href = buildBookingMailtoUrl(toPayload(data), labels, locale);
+  });
 
   const fieldError = (key: keyof BookingFormValues) =>
     errors[key]?.message ? (
@@ -97,7 +86,8 @@ export default function BookingForm({ tourId, tourTitle }: BookingFormProps) {
         <p className="text-sm text-blue-100/90 line-clamp-1">{tourTitle}</p>
       </CardHeader>
       <CardContent className="p-6">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+        <p className="mb-4 text-sm text-muted-foreground">{t('subtitle')}</p>
+        <form className="space-y-4" noValidate onSubmit={(e) => e.preventDefault()}>
           <div>
             <Label htmlFor="booking-name">{t('name')}</Label>
             <Input id="booking-name" autoComplete="name" {...register('name')} className="mt-1" />
@@ -158,13 +148,27 @@ export default function BookingForm({ tourId, tourTitle }: BookingFormProps) {
             <Textarea id="booking-message" {...register('message')} className="mt-1" rows={3} />
           </div>
 
-          <Button
-            type="submit"
-            className="w-full bg-brand-orange hover:bg-brand-orange/90"
-            disabled={submitting}
-          >
-            {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : t('submit')}
-          </Button>
+          <div className="flex flex-col gap-2 pt-1 sm:flex-row">
+            <Button
+              type="button"
+              className="flex-1 bg-[#25D366] hover:bg-[#20BD5A] text-white"
+              onClick={openWhatsApp}
+            >
+              <span className="mr-2 inline-flex h-4 w-4 shrink-0">
+                <WhatsAppIcon className="text-white" />
+              </span>
+              {t('bookWhatsApp')}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="flex-1 border-brand-blue text-brand-blue hover:bg-brand-blue/5"
+              onClick={openEmail}
+            >
+              <Mail className="mr-2 h-4 w-4" />
+              {t('bookEmail')}
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>

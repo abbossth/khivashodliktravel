@@ -161,15 +161,19 @@
   },
   "booking": {
     "title": "Book This Tour",
+    "subtitle": "Fill in your details, then send the booking via WhatsApp or your email app.",
     "name": "Full Name",
     "email": "Email Address",
     "phone": "Phone Number",
     "date": "Preferred Date",
     "guests": "Number of Guests",
     "message": "Special Requests",
-    "submit": "Send Booking Request",
-    "success": "Your request has been sent! We'll contact you shortly.",
-    "error": "Something went wrong. Please try again."
+    "labelTour": "Tour",
+    "bookWhatsApp": "Book via WhatsApp",
+    "bookEmail": "Book via Email",
+    "whatsappIntro": "Hello! I would like to book this tour:",
+    "emailSubject": "Tour booking request",
+    "none": "—"
   },
   "footer": {
     "address": "Khiva, Xorazm Region, Uzbekistan",
