@@ -1,11 +1,29 @@
-import { Loader2 } from 'lucide-react';
+import AdminTableSkeleton from '@/components/admin/AdminTableSkeleton';
 import { cn } from '@/lib/utils';
 
-export default function AdminLoading({ className }: { className?: string }) {
+export default function AdminLoading({
+  className,
+  variant = 'table',
+}: {
+  className?: string;
+  variant?: 'table' | 'cards';
+}) {
+  if (variant === 'cards') {
+    return (
+      <div className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-4', className)}>
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="admin-stat-card animate-pulse">
+            <div className="mb-3 h-4 w-24 rounded bg-slate-100" />
+            <div className="h-8 w-16 rounded bg-slate-100" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div className={cn('flex flex-col items-center justify-center gap-3 py-16', className)}>
-      <Loader2 className="h-8 w-8 animate-spin text-brand-blue" />
-      <p className="text-sm text-muted-foreground">Loading…</p>
+    <div className={className}>
+      <AdminTableSkeleton />
     </div>
   );
 }

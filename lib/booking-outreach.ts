@@ -68,12 +68,25 @@ export function buildBookingWhatsAppUrl(
   return `https://wa.me/${getWhatsAppDigits()}?text=${text}`;
 }
 
+export function buildBookingEmailParts(
+  payload: BookingOutreachPayload,
+  labels: BookingMessageLabels,
+  locale: string
+) {
+  return {
+    to: getAgencyEmail(),
+    subject: `${labels.emailSubject}: ${payload.tourTitle}`,
+    body: buildBookingLines(payload, labels, locale).join('\n'),
+  };
+}
+
+/** @deprecated Prefer buildBookingEmailParts + openEmailOutreach */
 export function buildBookingMailtoUrl(
   payload: BookingOutreachPayload,
   labels: BookingMessageLabels,
   locale: string
 ): string {
-  const subject = encodeURIComponent(`${labels.emailSubject}: ${payload.tourTitle}`);
-  const body = encodeURIComponent(buildBookingLines(payload, labels, locale).join('\n'));
-  return `mailto:${getAgencyEmail()}?subject=${subject}&body=${body}`;
+  const { to, subject, body } = buildBookingEmailParts(payload, labels, locale);
+  const params = new URLSearchParams({ subject, body });
+  return `mailto:${to}?${params.toString()}`;
 }

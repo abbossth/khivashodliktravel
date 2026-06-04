@@ -1,21 +1,22 @@
 # Khiva Shodlik Travel — brand assets
 
-## Download
+## Official logo
 
 | File | Use |
 |------|-----|
-| `logo-full.png` | Full logo with wordmark (print, social) |
-| `logo-mark.png` | Icon only, high resolution |
-| `logo-full.svg` | Scalable full logo (web) |
-| `logo-mark.svg` | Scalable icon (web) |
-| `favicon-32.png` / `favicon-16.png` | Browser tabs |
+| `khiva-shodlik-travel-logo.png` | **Primary** transparent emblem (512×512) |
+| `logo-mark.png` | Same as primary (alias) |
+| `favicon-16.png` / `favicon-32.png` | Browser tabs |
 | `apple-touch-icon.png` | iOS home screen |
-| `icon-512.png` | PWA / large icon |
+| `icon-512.png` | PWA |
 
-Open in browser: `/brand/logo-full.png` then right-click → Save image.
+Source: `assets/shodlik-travel-logo-source.jpg` — re-run processing after replacing:
 
-## Colors
+```bash
+python3 -m venv .venv-logo && .venv-logo/bin/pip install pillow
+.venv-logo/bin/python scripts/process-brand-logo.py
+```
 
-- Navy: `#1a3a5c`
-- Orange accent: `#f97316`
-- Turquoise (minaret): `#34d399`
+## Legacy SVG
+
+`logo-mark.svg` / `logo-full.svg` are kept for reference; the site uses the PNG emblem via `BrandLogo`.

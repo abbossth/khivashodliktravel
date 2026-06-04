@@ -3,7 +3,8 @@ export const runtime = 'nodejs';
 import { NextRequest, NextResponse } from 'next/server';
 import BlogPost from '@/models/BlogPost';
 import { verifyAdminToken } from '@/lib/auth';
-import { blogPostSchema } from '@/lib/validations';
+import { blogPostSchema, buildSlugFromTitle } from '@/lib/validations';
+import { ensureUniqueSlug } from '@/lib/unique-slug';
 import { requireDatabase, parseRequestBody } from '@/lib/api-db';
 import { logError } from '@/lib/safe';
 import { revalidatePublicContent } from '@/lib/revalidate-public';
@@ -59,18 +60,14 @@ export async function PUT(
     const dbError = await requireDatabase();
     if (dbError) return dbError;
 
-    const existing = await BlogPost.findOne({
-      slug: parsed.data.slug,
-      _id: { $ne: params.id },
-    });
-    if (existing) {
-      return NextResponse.json({ error: 'Slug already exists' }, { status: 409 });
-    }
+    const baseSlug = buildSlugFromTitle(parsed.data.title.en, parsed.data.slug || 'post');
+    const slug = await ensureUniqueSlug(baseSlug, BlogPost, params.id);
 
-    const post = await BlogPost.findByIdAndUpdate(params.id, parsed.data, {
-      new: true,
-      runValidators: true,
-    }).lean();
+    const post = await BlogPost.findByIdAndUpdate(
+      params.id,
+      { ...parsed.data, slug },
+      { new: true, runValidators: true }
+    ).lean();
 
     if (!post) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });

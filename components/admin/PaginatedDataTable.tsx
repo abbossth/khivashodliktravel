@@ -18,16 +18,17 @@ type PaginatedDataTableProps<T extends { _id: string }> = {
   data: T[];
   columns: Column<T>[];
   searchPlaceholder?: string;
-  /** Custom search — return true if item matches query. */
   filterItem?: (item: T, query: string) => boolean;
   emptyMessage?: string;
+  emptyDescription?: string;
   emptyAction?: React.ReactNode;
   onRowClick?: (item: T) => void;
   initialPageSize?: PageSizeOption;
-  /** Reset page when these change (e.g. status filter). */
   resetDeps?: unknown[];
   toolbarActions?: React.ReactNode;
+  toolbarFilters?: React.ReactNode;
   showSearch?: boolean;
+  enableBulkSelect?: boolean;
 };
 
 export default function PaginatedDataTable<T extends { _id: string }>({
@@ -36,12 +37,15 @@ export default function PaginatedDataTable<T extends { _id: string }>({
   searchPlaceholder,
   filterItem,
   emptyMessage,
+  emptyDescription,
   emptyAction,
   onRowClick,
   initialPageSize = 10,
   resetDeps = [],
   toolbarActions,
+  toolbarFilters,
   showSearch = true,
+  enableBulkSelect = false,
 }: PaginatedDataTableProps<T>) {
   const [search, setSearch] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
@@ -62,7 +66,10 @@ export default function PaginatedDataTable<T extends { _id: string }>({
   }, [pagination.page]);
 
   return (
-    <div ref={containerRef} className="overflow-hidden rounded-xl border bg-white shadow-sm">
+    <div
+      ref={containerRef}
+      className="overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm"
+    >
       {showSearch && (
         <AdminTableToolbar
           search={search}
@@ -71,6 +78,7 @@ export default function PaginatedDataTable<T extends { _id: string }>({
           totalCount={data.length}
           filteredCount={filtered.length}
           actions={toolbarActions}
+          filters={toolbarFilters}
         />
       )}
 
@@ -79,8 +87,10 @@ export default function PaginatedDataTable<T extends { _id: string }>({
         columns={columns}
         onRowClick={onRowClick}
         emptyMessage={emptyMessage}
+        emptyDescription={emptyDescription}
         emptyAction={emptyAction}
         bordered={false}
+        enableBulkSelect={enableBulkSelect}
       />
 
       <AdminPagination

@@ -1,0 +1,98 @@
+/* Khiva Shodlik Travel — Admin panel design tokens */
+
+.admin-root {
+  --admin-navy: #0f172a;
+  --admin-navy-mid: #1e3a5f;
+  --admin-orange: #f97316;
+  --admin-sky: #0ea5e9;
+  --admin-bg: #f8fafc;
+  --admin-text: #1e293b;
+  --admin-muted: #64748b;
+  --admin-success: #10b981;
+  --admin-danger: #ef4444;
+}
+
+@keyframes admin-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.admin-page-enter {
+  animation: admin-fade-in 150ms ease-out;
+}
+
+.admin-stat-card {
+  @apply relative overflow-hidden rounded-xl border-0 bg-white p-6 shadow-sm transition-all duration-200;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgb(15 23 42 / 0.12);
+}
+
+.admin-section-title {
+  @apply mb-4 border-l-4 border-[#F97316] pl-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#64748B];
+}
+
+.admin-form-section {
+  @apply rounded-xl border border-slate-200/80 bg-white p-6 shadow-sm;
+}
+
+.admin-tabs-pill-list [data-slot='tabs-trigger'] {
+  flex: 0 1 auto;
+}
+
+.admin-tab-trigger[data-active],
+.admin-tab-trigger[data-active='true'] {
+  border-color: rgb(249 115 22 / 0.4);
+  background-color: white;
+  color: #0f172a;
+  box-shadow:
+    0 4px 6px -1px rgb(15 23 42 / 0.08),
+    0 0 0 2px rgb(249 115 22 / 0.2);
+}
+
+.admin-tab-panel [data-slot='tabs-content'] {
+  animation: admin-tab-in 200ms ease-out;
+}
+
+@keyframes admin-tab-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.admin-input {
+  @apply h-11 rounded-lg border-slate-200 bg-white text-sm focus-visible:border-[#F97316] focus-visible:ring-2 focus-visible:ring-[#F97316]/30;
+}
+
+.admin-textarea {
+  @apply min-h-[120px] resize-y rounded-lg border-slate-200 bg-white text-sm focus-visible:border-[#F97316] focus-visible:ring-2 focus-visible:ring-[#F97316]/30;
+}
+
+.admin-table-row {
+  @apply h-16 transition-colors;
+}
+
+.admin-table-row:hover .admin-row-actions {
+  @apply opacity-100;
+}
+
+.admin-row-actions {
+  @apply opacity-0 transition-opacity duration-150;
+}
+
+@media (max-width: 768px) {
+  .admin-row-actions {
+    @apply opacity-100;
+  }
+}

@@ -3,7 +3,8 @@ export const runtime = 'nodejs';
 import { NextRequest, NextResponse } from 'next/server';
 import Tour from '@/models/Tour';
 import { verifyAdminToken } from '@/lib/auth';
-import { tourSchema } from '@/lib/validations';
+import { buildSlugFromTitle, tourSchema } from '@/lib/validations';
+import { ensureUniqueSlug } from '@/lib/unique-slug';
 import { requireDatabase, parseRequestBody } from '@/lib/api-db';
 import { logError } from '@/lib/safe';
 import { revalidatePublicContent } from '@/lib/revalidate-public';
@@ -78,12 +79,9 @@ export async function POST(request: NextRequest) {
     const dbError = await requireDatabase();
     if (dbError) return dbError;
 
-    const existing = await Tour.findOne({ slug: parsed.data.slug });
-    if (existing) {
-      return NextResponse.json({ error: 'Slug already exists' }, { status: 409 });
-    }
-
-    const tour = await Tour.create(parsed.data);
+    const baseSlug = buildSlugFromTitle(parsed.data.title.en, 'tour');
+    const slug = await ensureUniqueSlug(baseSlug, Tour);
+    const tour = await Tour.create({ ...parsed.data, slug });
     revalidatePublicContent(['tours']);
     return NextResponse.json({ tour }, { status: 201 });
   } catch (error) {

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { Mail } from 'lucide-react';
+import { toast } from 'sonner';
 import WhatsAppIcon from '@/components/shared/WhatsAppIcon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,10 +12,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  buildInquiryMailtoUrl,
+  buildInquiryEmailParts,
   buildInquiryWhatsAppUrl,
   type InquiryMessageLabels,
 } from '@/lib/inquiry-outreach';
+import { getAgencyEmail } from '@/lib/booking-outreach';
+import { openEmailOutreach } from '@/lib/open-email-outreach';
 import { inquiryFormSchema, type InquiryFormValues } from '@/lib/validations';
 import { logError } from '@/lib/safe';
 
@@ -42,6 +45,9 @@ export default function ContactInquiryForm() {
   const {
     register,
     handleSubmit,
+    getValues,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<InquiryFormValues>({
     resolver: zodResolver(inquiryFormSchema),
@@ -73,15 +79,37 @@ export default function ContactInquiryForm() {
     message: data.message,
   });
 
+  const applyValidationErrors = (data: InquiryFormValues): data is InquiryFormValues => {
+    const parsed = inquiryFormSchema.safeParse(data);
+    if (parsed.success) {
+      clearErrors();
+      return true;
+    }
+    clearErrors();
+    for (const issue of parsed.error.issues) {
+      const field = issue.path[0];
+      if (typeof field === 'string') {
+        setError(field as keyof InquiryFormValues, { type: 'manual', message: issue.message });
+      }
+    }
+    return false;
+  };
+
   const openWhatsApp = handleSubmit((data) => {
     void saveInquiryInBackground(data, t('form.defaultSubject'));
     window.open(buildInquiryWhatsAppUrl(toPayload(data), labels), '_blank', 'noopener,noreferrer');
   });
 
-  const openEmail = handleSubmit((data) => {
+  const openEmail = () => {
+    const data = getValues();
+    if (!applyValidationErrors(data)) return;
+
     void saveInquiryInBackground(data, t('form.defaultSubject'));
-    window.location.href = buildInquiryMailtoUrl(toPayload(data), labels);
-  });
+    openEmailOutreach(buildInquiryEmailParts(toPayload(data), labels));
+    toast.message(t('form.emailHint'), {
+      description: t('form.emailHintDesc', { email: getAgencyEmail() }),
+    });
+  };
 
   const fieldError = (key: keyof InquiryFormValues) =>
     errors[key]?.message ? (
@@ -139,25 +167,23 @@ export default function ContactInquiryForm() {
             <Textarea id="inq-message" rows={4} {...register('message')} className="mt-1" />
             {fieldError('message')}
           </div>
-          <div className="flex flex-col gap-2 sm:flex-row">
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             <Button
               type="button"
-              className="flex-1 bg-[#25D366] hover:bg-[#20BD5A] text-white"
+              className="h-11 w-full min-w-0 justify-center gap-2 bg-[#25D366] px-3 text-sm font-semibold hover:bg-[#20BD5A] text-white"
               onClick={openWhatsApp}
             >
-              <span className="mr-2 inline-flex h-4 w-4 shrink-0">
-                <WhatsAppIcon className="text-white" />
-              </span>
-              {t('form.sendWhatsApp')}
+              <WhatsAppIcon className="h-4 w-4 shrink-0 text-white" />
+              <span className="text-center leading-tight">{t('form.sendWhatsApp')}</span>
             </Button>
             <Button
               type="button"
               variant="outline"
-              className="flex-1 border-brand-blue text-brand-blue hover:bg-brand-blue/5"
+              className="h-11 w-full min-w-0 justify-center gap-2 border-brand-blue px-3 text-sm font-semibold text-brand-blue hover:bg-brand-blue/5"
               onClick={openEmail}
             >
-              <Mail className="mr-2 h-4 w-4" />
-              {t('form.sendEmail')}
+              <Mail className="h-4 w-4 shrink-0" />
+              <span className="text-center leading-tight">{t('form.sendEmail')}</span>
             </Button>
           </div>
         </form>

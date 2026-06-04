@@ -47,13 +47,24 @@ export function buildInquiryWhatsAppUrl(
   return `https://wa.me/${getWhatsAppDigits()}?text=${text}`;
 }
 
+export function buildInquiryEmailParts(
+  payload: InquiryOutreachPayload,
+  labels: InquiryMessageLabels
+) {
+  const tour = payload.tourInterest?.trim();
+  return {
+    to: getAgencyEmail(),
+    subject: `${labels.emailSubject}${tour ? `: ${tour}` : ''}`,
+    body: buildInquiryLines(payload, labels).join('\n'),
+  };
+}
+
+/** @deprecated Prefer buildInquiryEmailParts + openEmailOutreach */
 export function buildInquiryMailtoUrl(
   payload: InquiryOutreachPayload,
   labels: InquiryMessageLabels
 ): string {
-  const subject = encodeURIComponent(
-    `${labels.emailSubject}${payload.tourInterest?.trim() ? `: ${payload.tourInterest.trim()}` : ''}`
-  );
-  const body = encodeURIComponent(buildInquiryLines(payload, labels).join('\n'));
-  return `mailto:${getAgencyEmail()}?subject=${subject}&body=${body}`;
+  const { to, subject, body } = buildInquiryEmailParts(payload, labels);
+  const params = new URLSearchParams({ subject, body });
+  return `mailto:${to}?${params.toString()}`;
 }

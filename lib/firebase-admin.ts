@@ -32,7 +32,9 @@ function getAdminApp(): App | null {
         clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL!,
         privateKey: privateKey!,
       }),
-      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+      storageBucket:
+        process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET ??
+        'shodlik-travel-4dbbf.firebasestorage.app',
     });
 
     return adminApp;

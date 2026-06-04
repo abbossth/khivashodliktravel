@@ -6,6 +6,10 @@
     "contact": "Aloqa",
     "bookTour": "Tur bron qilish"
   },
+  "brand": {
+    "nameAccent": "Xiva",
+    "nameRest": " Shodlik Travel"
+  },
   "hero": {
     "title": "O'zbekistonni biz bilan kashf eting",
     "subtitle": "Xivadan Orol dengizigacha professional turlar",
@@ -64,7 +68,23 @@
     "highlights": "Diqqatga sazovor joylar",
     "day": "Kun",
     "featuredBadge": "Tavsiya",
-    "empty": "Bu kategoriyada hozircha turlar yo'q. Maxsus tur uchun biz bilan bog'laning."
+    "empty": "Bu kategoriyada hozircha turlar yo'q. Maxsus tur uchun biz bilan bog'laning.",
+    "gallery": {
+      "sectionLabel": "Tur rasmlari",
+      "cover": "Asosiy",
+      "thumbnails": "Rasm ko'rinishlari",
+      "photoCounter": "{current} / {total}",
+      "openPhoto": "{n}-rasmni ochish",
+      "selectPhoto": "{n}-rasmni ko'rsatish",
+      "expand": "To'liq ko'rinish",
+      "previous": "Oldingi rasm",
+      "next": "Keyingi rasm",
+      "morePhotos": "yana +{count}",
+      "viewAll": "Barcha {count} ta rasm",
+      "lightboxTitle": "Tur galereyasi",
+      "gridView": "Panjara",
+      "singleView": "Slayd"
+    }
   },
   "blog": {
     "title": "Sayohat blogi",
@@ -99,7 +119,9 @@
       "defaultSubject": "Sayt so'rovi",
       "emailSubject": "Sayt so'rovi",
       "whatsappIntro": "Salom! Men quyidagi haqida so'ramoqchiman:",
-      "none": "—"
+      "none": "—",
+      "emailHint": "Email ochilmoqda…",
+      "emailHintDesc": "Pochta ilovasi yoki Gmail tabidan foydalaning. Yoki {email} manziliga yozing"
     }
   },
   "services": {
@@ -142,6 +164,16 @@
   "booking": {
     "title": "Tur bron qilish",
     "subtitle": "Ma'lumotlarni to'ldiring, keyin WhatsApp yoki email orqali yuboring.",
+    "sectionContact": "Sizning ma'lumotlaringiz",
+    "sectionTrip": "Sayohat tafsilotlari",
+    "sendVia": "So'rovni yuborish",
+    "noPaymentNote": "Hozir to'lov yo'q — mavjudlikni tasdiqlab, 24 soat ichida javob beramiz.",
+    "placeholderName": "masalan, Ali Valiyev",
+    "placeholderEmail": "siz@example.com",
+    "placeholderPhone": "+998 90 123 45 67",
+    "placeholderMessage": "Ovqatlanish, olib ketish joyi, savollar…",
+    "guestsDecrease": "Kamroq mehmon",
+    "guestsIncrease": "Ko'proq mehmon",
     "name": "To'liq ism",
     "email": "Email manzil",
     "phone": "Telefon raqami",
@@ -153,7 +185,9 @@
     "bookEmail": "Email orqali bron qilish",
     "whatsappIntro": "Assalomu alaykum! Quyidagi turni bron qilmoqchiman:",
     "emailSubject": "Tur bron qilish so'rovi",
-    "none": "—"
+    "none": "—",
+    "emailHint": "Email ochilmoqda…",
+    "emailHintDesc": "Pochta ilovasi yoki Gmail tabidan foydalaning. Yoki {email} manziliga yozing"
   },
   "footer": {
     "address": "Xiva, Xorazm viloyati, O'zbekiston",
@@ -208,15 +242,29 @@
     },
     "imageUploader": {
       "dropTitle": "Rasm yuklash",
-      "dropHint": "Sudrab tashlang yoki bosing — PNG, JPG, WebP",
-      "urlLabel": "Rasm URL",
-      "urlHint": "Havola joylang (/images/... yoki https://) yoki yuklagandan keyingi URLdan foydalaning",
-      "urlPlaceholder": "/images/hero.jpg yoki https://...",
+      "dropHint": "Sudrab tashlang yoki bosing — PNG, JPG, WebP, GIF (maks. {maxMb} MB)",
+      "fileTooLarge": "Rasm hajmi {maxMb} MB dan oshmasin.",
+      "filesTooLarge": "{count} ta rasm o‘tkazib yuborildi — maksimal hajm {maxMb} MB.",
+      "dropFirebase": "Rasm Firebase Storage ga saqlanadi; havola pastdagi maydonda chiqadi.",
+      "uploading": "Firebase Storage ga yuklanmoqda…",
+      "urlLabel": "Tashqi havola qo‘shish",
+      "urlLabelCopy": "Rasm havolasi (nusxalash)",
+      "urlHint": "Yuklasangiz rasm yuqoridagi galereyaga avtomatik tushadi. Boshqa saytdan havola qo‘yish uchun maydonga yozib «Rasm qo‘shish» ni bosing.",
+      "urlHintInGallery": "Bu havola yuqoridagi galereyada allaqachon bor. Nusxalashingiz mumkin — «Rasm qo‘shish» kerak emas.",
+      "urlAlreadyInGallery": "Galereyada bor — qo‘shish tugmasi shart emas.",
+      "urlPressAdd": "Galereyaga qo‘shish uchun «Rasm qo‘shish» ni bosing.",
+      "urlPlaceholder": "Havola qo‘ying yoki yuqoridan rasm yuklang",
+      "urlPlaceholderUploading": "Yuklanmoqda… havola shu yerda paydo bo‘ladi",
+      "urlFilling": "Firebase havolasi shu maydonga yozilmoqda…",
+      "copyUrl": "Havolani nusxalash",
+      "urlCopied": "Havola nusxalandi",
+      "urlCopyFailed": "Havolani nusxalab bo‘lmadi",
+      "uploadPartial": "Xatodan oldin {count} ta rasm yuklandi",
       "addUrl": "Rasm qo‘shish",
       "applyUrl": "URLni qo‘llash",
       "urlValid": "To‘g‘ri rasm URL",
       "urlRequired": "Rasm URL kiriting",
-      "urlInvalid": "URL /images/ yoki https:// bilan boshlanishi kerak",
+      "urlInvalid": "/images/..., https://... yoki gs://bucket/path ishlating",
       "urlDuplicate": "Bu rasm allaqachon qo‘shilgan",
       "urlAdded": "Rasm URL saqlandi",
       "uploadedOne": "Rasm yuklandi",

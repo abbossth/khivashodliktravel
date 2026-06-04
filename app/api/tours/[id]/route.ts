@@ -3,7 +3,8 @@ export const runtime = 'nodejs';
 import { NextRequest, NextResponse } from 'next/server';
 import Tour from '@/models/Tour';
 import { verifyAdminToken } from '@/lib/auth';
-import { tourSchema } from '@/lib/validations';
+import { buildSlugFromTitle, tourSchema, tourMediaPatchSchema } from '@/lib/validations';
+import { ensureUniqueSlug } from '@/lib/unique-slug';
 import { requireDatabase, parseRequestBody } from '@/lib/api-db';
 import { logError } from '@/lib/safe';
 import { revalidatePublicContent } from '@/lib/revalidate-public';
@@ -34,6 +35,51 @@ export async function GET(
   }
 }
 
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const isAdmin = await verifyAdminToken(request);
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { data: body, error: bodyError } = await parseRequestBody<unknown>(request);
+    if (bodyError) return bodyError;
+
+    const parsed = tourMediaPatchSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: parsed.error.flatten() },
+        { status: 400 }
+      );
+    }
+
+    const dbError = await requireDatabase();
+    if (dbError) return dbError;
+
+    const update: Record<string, unknown> = {};
+    if (parsed.data.images !== undefined) update.images = parsed.data.images;
+    if (parsed.data.coverImage !== undefined) update.coverImage = parsed.data.coverImage;
+
+    const tour = await Tour.findByIdAndUpdate(params.id, { $set: update }, {
+      new: true,
+      runValidators: true,
+    }).lean();
+
+    if (!tour) {
+      return NextResponse.json({ error: 'Tour not found' }, { status: 404 });
+    }
+
+    revalidatePublicContent(['tours']);
+    return NextResponse.json({ tour });
+  } catch (error) {
+    logError('PATCH /api/tours/[id]', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -59,18 +105,14 @@ export async function PUT(
     const dbError = await requireDatabase();
     if (dbError) return dbError;
 
-    const existing = await Tour.findOne({
-      slug: parsed.data.slug,
-      _id: { $ne: params.id },
-    });
-    if (existing) {
-      return NextResponse.json({ error: 'Slug already exists' }, { status: 409 });
-    }
+    const baseSlug = buildSlugFromTitle(parsed.data.title.en, parsed.data.slug || 'tour');
+    const slug = await ensureUniqueSlug(baseSlug, Tour, params.id);
 
-    const tour = await Tour.findByIdAndUpdate(params.id, parsed.data, {
-      new: true,
-      runValidators: true,
-    }).lean();
+    const tour = await Tour.findByIdAndUpdate(
+      params.id,
+      { ...parsed.data, slug },
+      { new: true, runValidators: true }
+    ).lean();
 
     if (!tour) {
       return NextResponse.json({ error: 'Tour not found' }, { status: 404 });

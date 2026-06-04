@@ -3,7 +3,8 @@ export const runtime = 'nodejs';
 import { NextRequest, NextResponse } from 'next/server';
 import BlogPost from '@/models/BlogPost';
 import { verifyAdminToken } from '@/lib/auth';
-import { blogPostSchema } from '@/lib/validations';
+import { blogPostSchema, buildSlugFromTitle } from '@/lib/validations';
+import { ensureUniqueSlug } from '@/lib/unique-slug';
 import { requireDatabase, parseRequestBody } from '@/lib/api-db';
 import { logError } from '@/lib/safe';
 import { revalidatePublicContent } from '@/lib/revalidate-public';
@@ -63,12 +64,9 @@ export async function POST(request: NextRequest) {
     const dbError = await requireDatabase();
     if (dbError) return dbError;
 
-    const existing = await BlogPost.findOne({ slug: parsed.data.slug });
-    if (existing) {
-      return NextResponse.json({ error: 'Slug already exists' }, { status: 409 });
-    }
-
-    const post = await BlogPost.create(parsed.data);
+    const baseSlug = buildSlugFromTitle(parsed.data.title.en, 'post');
+    const slug = await ensureUniqueSlug(baseSlug, BlogPost);
+    const post = await BlogPost.create({ ...parsed.data, slug });
     revalidatePublicContent(['blog']);
     return NextResponse.json({ post }, { status: 201 });
   } catch (error) {

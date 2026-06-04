@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { Loader2, Plus, Trash2 } from 'lucide-react';
+import { useForm, useFieldArray, Controller } from 'react-hook-form';
+import { Loader2, Plus, Trash2, Globe, Receipt, ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,10 +26,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { AdminFormTabs, TabsContent } from './AdminFormTabs';
+import AdminSectionTitle from './AdminSectionTitle';
+import AdminTagInput from './AdminTagInput';
 import ImageUploader from './ImageUploader';
 import { useAdminStore } from '@/hooks/useAdmin';
 import { parseJsonResponse } from '@/hooks/useSafeFetch';
-import { generateSlug } from '@/lib/validations';
+import { buildSlugFromTitle } from '@/lib/validations';
+import { cn } from '@/lib/utils';
 import type { Tour } from '@/types';
 import { z } from 'zod';
 import { tourSchema } from '@/lib/validations';
@@ -40,11 +43,46 @@ const emptyLocalized = { en: '', ru: '', uz: '' };
 const emptyLocalizedArray = { en: [] as string[], ru: [] as string[], uz: [] as string[] };
 
 const LANGUAGE_TABS = [
-  { value: 'en', label: 'English', shortLabel: 'EN' },
-  { value: 'ru', label: 'Russian', shortLabel: 'RU' },
-  { value: 'uz', label: 'Uzbek', shortLabel: 'UZ' },
-  { value: 'shared', label: 'Details & pricing', shortLabel: 'Details' },
-  { value: 'media', label: 'Photos', shortLabel: 'Photos' },
+  {
+    value: 'en',
+    label: 'English',
+    shortLabel: 'EN',
+    icon: Globe,
+    group: 'language' as const,
+    hint: 'Main title and descriptions shown to most visitors. Slug is generated from the English title.',
+  },
+  {
+    value: 'ru',
+    label: 'Russian',
+    shortLabel: 'RU',
+    icon: Globe,
+    group: 'language' as const,
+    hint: 'Russian version of title, short text, full description, and bullet lists.',
+  },
+  {
+    value: 'uz',
+    label: 'Uzbek',
+    shortLabel: 'UZ',
+    icon: Globe,
+    group: 'language' as const,
+    hint: 'Uzbek version of all customer-facing text on the tour page.',
+  },
+  {
+    value: 'shared',
+    label: 'Details & pricing',
+    shortLabel: 'Details',
+    icon: Receipt,
+    group: 'meta' as const,
+    hint: 'Price, duration, category, itinerary days, and publish switches.',
+  },
+  {
+    value: 'media',
+    label: 'Photos',
+    shortLabel: 'Photos',
+    icon: ImageIcon,
+    group: 'media' as const,
+    hint: 'Upload gallery images and pick the cover photo shown on listings.',
+  },
 ];
 
 const LOCALE_LABELS: Record<string, string> = {
@@ -57,20 +95,71 @@ interface TourFormProps {
   tour?: Tour;
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="mb-4 border-b border-slate-100 pb-2 text-sm font-semibold uppercase tracking-wide text-brand-blue">
-      {children}
-    </h3>
-  );
-}
-
 export default function TourForm({ tour }: TourFormProps) {
   const router = useRouter();
   const { token } = useAdminStore();
   const [submitting, setSubmitting] = useState(false);
   const [images, setImages] = useState<string[]>(tour?.images || []);
   const [coverImage, setCoverImage] = useState(tour?.coverImage || '');
+  const [savingMedia, setSavingMedia] = useState(false);
+  const imagesRef = useRef(images);
+  const coverRef = useRef(coverImage);
+  imagesRef.current = images;
+  coverRef.current = coverImage;
+
+  const resolveCover = useCallback((nextImages: string[], preferredCover?: string) => {
+    const current = preferredCover ?? coverRef.current;
+    if (current && nextImages.includes(current)) return current;
+    return nextImages[0] ?? '';
+  }, []);
+
+  const saveTourMedia = useCallback(
+    async (nextImages: string[], nextCover: string) => {
+      setImages(nextImages);
+      setCoverImage(nextCover);
+      imagesRef.current = nextImages;
+      coverRef.current = nextCover;
+
+      if (!tour?._id || !token) return;
+
+      setSavingMedia(true);
+      try {
+        const res = await fetch(`/api/tours/${tour._id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ images: nextImages, coverImage: nextCover }),
+        });
+        const parsed = await parseJsonResponse(res);
+        if (!parsed.ok) {
+          throw new Error(parsed.error ?? 'Failed to save photos');
+        }
+        toast.success('Photo saved to this tour');
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : 'Failed to save photo to tour');
+      } finally {
+        setSavingMedia(false);
+      }
+    },
+    [tour?._id, token]
+  );
+
+  const handleImagesChange = useCallback(
+    (nextImages: string[]) => {
+      const nextCover = resolveCover(nextImages);
+      void saveTourMedia(nextImages, nextCover);
+    },
+    [resolveCover, saveTourMedia]
+  );
+
+  const handleCoverChange = useCallback(
+    (url: string) => {
+      void saveTourMedia(imagesRef.current, url);
+    },
+    [saveTourMedia]
+  );
 
   const defaultValues: TourFormValues = tour
     ? {
@@ -112,7 +201,14 @@ export default function TourForm({ tour }: TourFormProps) {
         isFeatured: false,
       };
 
-  const { register, handleSubmit, watch, setValue, control } = useForm<TourFormValues>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    control,
+    formState: { isDirty },
+  } = useForm<TourFormValues>({
     defaultValues,
   });
 
@@ -120,11 +216,17 @@ export default function TourForm({ tour }: TourFormProps) {
 
   const locales = ['en', 'ru', 'uz'] as const;
 
-  const handleTitleEnChange = (value: string) => {
-    setValue('title.en', value);
-    if (!tour) {
-      setValue('slug', generateSlug(value));
-    }
+  const titleValues = watch('title');
+  const shortValues = watch('shortDescription');
+  const priceValue = watch('price');
+  const durationValue = watch('duration');
+
+  const tabComplete: Record<string, boolean> = {
+    en: Boolean(titleValues?.en?.trim() && shortValues?.en?.trim()),
+    ru: Boolean(titleValues?.ru?.trim() && shortValues?.ru?.trim()),
+    uz: Boolean(titleValues?.uz?.trim() && shortValues?.uz?.trim()),
+    shared: Boolean(durationValue?.trim() && Number(priceValue) > 0),
+    media: Boolean(coverImage?.trim() || images.length > 0),
   };
 
   const onSubmit = async (data: TourFormValues) => {
@@ -138,7 +240,9 @@ export default function TourForm({ tour }: TourFormProps) {
     }
 
     setSubmitting(true);
-    const payload = { ...data, images, coverImage };
+    const slug =
+      buildSlugFromTitle(data.title.en, tour?.slug ?? 'tour') || tour?.slug || 'tour';
+    const payload = { ...data, slug, images, coverImage };
 
     try {
       const url = tour ? `/api/tours/${tour._id}` : '/api/tours';
@@ -168,22 +272,28 @@ export default function TourForm({ tour }: TourFormProps) {
   };
 
   return (
-    <Card className="overflow-hidden border-slate-200 shadow-sm">
-      <CardHeader className="border-b border-slate-100 bg-slate-50/80">
-        <CardTitle className="text-xl text-brand-blue">
+    <Card className="overflow-hidden rounded-xl border-slate-200/80 shadow-sm">
+      <CardHeader className="border-b border-slate-100 bg-white px-6 py-5">
+        <CardTitle className="text-2xl font-bold text-[#1E293B]">
           {tour ? 'Edit tour' : 'Create tour'}
         </CardTitle>
-        <CardDescription>
-          Add content in each language, then set pricing, itinerary, and photos.
+        <CardDescription className="text-[#64748B]">
+          Add content in each language, then set pricing, itinerary, and photos. The page URL is built from the English title automatically.
         </CardDescription>
       </CardHeader>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <CardContent className="pt-6">
-          <AdminFormTabs tabs={LANGUAGE_TABS} defaultValue="en">
+        <CardContent className="px-6 pt-2">
+          <AdminFormTabs
+            tabs={LANGUAGE_TABS}
+            defaultValue="en"
+            dirty={isDirty}
+            tabComplete={tabComplete}
+            metaGroupLabel="Tour setup"
+          >
             {locales.map((loc) => (
-              <TabsContent key={loc} value={loc} className="space-y-6 mt-0">
-                <SectionTitle>Content — {LOCALE_LABELS[loc]}</SectionTitle>
+              <TabsContent key={loc} value={loc} className="admin-form-section mt-0 space-y-6">
+                <AdminSectionTitle>Content — {LOCALE_LABELS[loc]}</AdminSectionTitle>
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="md:col-span-2">
@@ -191,11 +301,8 @@ export default function TourForm({ tour }: TourFormProps) {
                     <Input
                       id={`title-${loc}`}
                       {...register(`title.${loc}`)}
-                      onChange={(e) => {
-                        if (loc === 'en') handleTitleEnChange(e.target.value);
-                        else setValue(`title.${loc}`, e.target.value);
-                      }}
-                      className="mt-1.5"
+                      onChange={(e) => setValue(`title.${loc}`, e.target.value)}
+                      className="admin-input mt-1.5"
                       placeholder="Tour title"
                     />
                   </div>
@@ -204,7 +311,7 @@ export default function TourForm({ tour }: TourFormProps) {
                     <Textarea
                       id={`short-${loc}`}
                       {...register(`shortDescription.${loc}`)}
-                      className="mt-1.5"
+                      className="admin-textarea mt-1.5 min-h-[80px]"
                       rows={2}
                       placeholder="Shown on tour cards"
                     />
@@ -214,7 +321,7 @@ export default function TourForm({ tour }: TourFormProps) {
                     <Textarea
                       id={`desc-${loc}`}
                       {...register(`description.${loc}`)}
-                      className="mt-1.5"
+                      className="admin-textarea mt-1.5"
                       rows={5}
                       placeholder="Detailed overview for the tour page"
                     />
@@ -223,68 +330,40 @@ export default function TourForm({ tour }: TourFormProps) {
 
                 <div className="grid gap-4 md:grid-cols-3">
                   <div>
-                    <Label htmlFor={`highlights-${loc}`}>Highlights</Label>
-                    <p className="mb-1.5 text-xs text-muted-foreground">One per line</p>
-                    <Textarea
-                      id={`highlights-${loc}`}
-                      className="mt-0"
-                      rows={4}
-                      defaultValue={(watch(`highlights.${loc}`) || []).join('\n')}
-                      onChange={(e) =>
-                        setValue(
-                          `highlights.${loc}`,
-                          e.target.value.split('\n').filter(Boolean)
-                        )
-                      }
+                    <Label>Highlights</Label>
+                    <p className="mb-1.5 text-xs text-[#64748B]">Press Enter to add each item</p>
+                    <AdminTagInput
+                      value={watch(`highlights.${loc}`) || []}
+                      onChange={(tags) => setValue(`highlights.${loc}`, tags, { shouldDirty: true })}
+                      placeholder="Add highlight…"
                     />
                   </div>
                   <div>
-                    <Label htmlFor={`includes-${loc}`}>Includes</Label>
-                    <p className="mb-1.5 text-xs text-muted-foreground">One per line</p>
-                    <Textarea
-                      id={`includes-${loc}`}
-                      rows={4}
-                      defaultValue={(watch(`includes.${loc}`) || []).join('\n')}
-                      onChange={(e) =>
-                        setValue(
-                          `includes.${loc}`,
-                          e.target.value.split('\n').filter(Boolean)
-                        )
-                      }
+                    <Label>Includes</Label>
+                    <p className="mb-1.5 text-xs text-[#64748B]">Press Enter to add each item</p>
+                    <AdminTagInput
+                      value={watch(`includes.${loc}`) || []}
+                      onChange={(tags) => setValue(`includes.${loc}`, tags, { shouldDirty: true })}
+                      placeholder="Add include…"
                     />
                   </div>
                   <div>
-                    <Label htmlFor={`excludes-${loc}`}>Excludes</Label>
-                    <p className="mb-1.5 text-xs text-muted-foreground">One per line</p>
-                    <Textarea
-                      id={`excludes-${loc}`}
-                      rows={4}
-                      defaultValue={(watch(`excludes.${loc}`) || []).join('\n')}
-                      onChange={(e) =>
-                        setValue(
-                          `excludes.${loc}`,
-                          e.target.value.split('\n').filter(Boolean)
-                        )
-                      }
+                    <Label>Excludes</Label>
+                    <p className="mb-1.5 text-xs text-[#64748B]">Press Enter to add each item</p>
+                    <AdminTagInput
+                      value={watch(`excludes.${loc}`) || []}
+                      onChange={(tags) => setValue(`excludes.${loc}`, tags, { shouldDirty: true })}
+                      placeholder="Add exclude…"
                     />
                   </div>
                 </div>
               </TabsContent>
             ))}
 
-            <TabsContent value="shared" className="space-y-8 mt-0">
-              <div>
-                <SectionTitle>Pricing & logistics</SectionTitle>
+            <TabsContent value="shared" className="mt-0 space-y-8">
+              <div className="admin-form-section">
+                <AdminSectionTitle>Pricing & logistics</AdminSectionTitle>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  <div className="sm:col-span-2 lg:col-span-3">
-                    <Label htmlFor="slug">URL slug</Label>
-                    <Input
-                      id="slug"
-                      {...register('slug')}
-                      className="mt-1.5"
-                      placeholder="khiva-old-city-tour"
-                    />
-                  </div>
                   <div>
                     <Label>Category</Label>
                     <Select
@@ -293,7 +372,7 @@ export default function TourForm({ tour }: TourFormProps) {
                         v && setValue('category', v as TourFormValues['category'])
                       }
                     >
-                      <SelectTrigger className="mt-1.5">
+                      <SelectTrigger className="admin-input mt-1.5 h-11">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -314,7 +393,7 @@ export default function TourForm({ tour }: TourFormProps) {
                       type="number"
                       min={0}
                       {...register('price', { valueAsNumber: true })}
-                      className="mt-1.5"
+                      className="admin-input mt-1.5"
                     />
                   </div>
                   <div>
@@ -323,7 +402,7 @@ export default function TourForm({ tour }: TourFormProps) {
                       defaultValue={watch('currency')}
                       onValueChange={(v) => v && setValue('currency', v as 'USD' | 'UZS')}
                     >
-                      <SelectTrigger className="mt-1.5">
+                      <SelectTrigger className="admin-input mt-1.5 h-11">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -338,7 +417,7 @@ export default function TourForm({ tour }: TourFormProps) {
                       id="duration"
                       {...register('duration')}
                       placeholder="3 days / 2 nights"
-                      className="mt-1.5"
+                      className="admin-input mt-1.5"
                     />
                   </div>
                   <div>
@@ -348,47 +427,79 @@ export default function TourForm({ tour }: TourFormProps) {
                       type="number"
                       min={1}
                       {...register('groupSize', { valueAsNumber: true })}
-                      className="mt-1.5"
+                      className="admin-input mt-1.5"
                     />
                   </div>
                 </div>
               </div>
 
-              <div>
-                <SectionTitle>Visibility</SectionTitle>
-                <div className="flex flex-wrap gap-8 rounded-lg border border-slate-100 bg-slate-50/50 p-4">
-                  <div className="flex items-center gap-3">
-                    <Switch
-                      id="published"
-                      checked={watch('isPublished')}
-                      onCheckedChange={(v) => setValue('isPublished', v)}
-                    />
-                    <div>
-                      <Label htmlFor="published" className="cursor-pointer">
-                        Published
-                      </Label>
-                      <p className="text-xs text-muted-foreground">Visible on the website</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Switch
-                      id="featured"
-                      checked={watch('isFeatured')}
-                      onCheckedChange={(v) => setValue('isFeatured', v)}
-                    />
-                    <div>
-                      <Label htmlFor="featured" className="cursor-pointer">
-                        Featured
-                      </Label>
-                      <p className="text-xs text-muted-foreground">Show on homepage</p>
-                    </div>
-                  </div>
+              <div className="admin-form-section">
+                <AdminSectionTitle>Visibility</AdminSectionTitle>
+                <div className="flex flex-wrap gap-6">
+                  <Controller
+                    name="isPublished"
+                    control={control}
+                    render={({ field }) => (
+                      <label
+                        htmlFor="tour-published"
+                        className={cn(
+                          'flex min-w-[200px] flex-1 cursor-pointer items-center gap-3 rounded-lg border bg-white p-4 shadow-sm transition-colors hover:border-[#F97316]/40',
+                          field.value
+                            ? 'border-[#F97316]/50 bg-orange-50/40'
+                            : 'border-slate-200'
+                        )}
+                      >
+                        <Switch
+                          id="tour-published"
+                          checked={Boolean(field.value)}
+                          onCheckedChange={(checked) =>
+                            field.onChange(checked)
+                          }
+                        />
+                        <div>
+                          <span className="text-sm font-semibold text-[#1E293B]">
+                            Published
+                          </span>
+                          <p className="text-xs text-[#64748B]">Visible on the website</p>
+                        </div>
+                      </label>
+                    )}
+                  />
+                  <Controller
+                    name="isFeatured"
+                    control={control}
+                    render={({ field }) => (
+                      <label
+                        htmlFor="tour-featured"
+                        className={cn(
+                          'flex min-w-[200px] flex-1 cursor-pointer items-center gap-3 rounded-lg border bg-white p-4 shadow-sm transition-colors hover:border-[#F97316]/40',
+                          field.value
+                            ? 'border-[#F97316]/50 bg-orange-50/40'
+                            : 'border-slate-200'
+                        )}
+                      >
+                        <Switch
+                          id="tour-featured"
+                          checked={Boolean(field.value)}
+                          onCheckedChange={(checked) =>
+                            field.onChange(checked)
+                          }
+                        />
+                        <div>
+                          <span className="text-sm font-semibold text-[#1E293B]">
+                            Featured
+                          </span>
+                          <p className="text-xs text-[#64748B]">Show on homepage</p>
+                        </div>
+                      </label>
+                    )}
+                  />
                 </div>
               </div>
 
-              <div>
+              <div className="admin-form-section">
                 <div className="mb-4 flex items-center justify-between">
-                  <SectionTitle>Itinerary</SectionTitle>
+                  <AdminSectionTitle>Itinerary</AdminSectionTitle>
                   <Button
                     type="button"
                     variant="outline"
@@ -457,28 +568,46 @@ export default function TourForm({ tour }: TourFormProps) {
               </div>
             </TabsContent>
 
-            <TabsContent value="media" className="mt-0">
-              <SectionTitle>Photos</SectionTitle>
-              <p className="mb-4 text-sm text-muted-foreground">
-                Upload images or paste URLs (/images/... or https://). Select one as the cover.
+            <TabsContent value="media" className="admin-form-section mt-0">
+              <AdminSectionTitle>Photos</AdminSectionTitle>
+              <p className="mb-4 text-sm text-[#64748B]">
+                {tour
+                  ? 'Upload or add a URL — each photo is saved to this tour automatically. Pick a cover with Set cover.'
+                  : 'Upload images or paste URLs. Save the tour once to enable auto-save on later edits.'}
               </p>
+              {savingMedia && (
+                <p className="mb-3 flex items-center gap-2 text-sm text-[#0EA5E9]">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Saving photos to tour…
+                </p>
+              )}
               <ImageUploader
                 images={images}
-                onChange={setImages}
+                onChange={handleImagesChange}
                 coverImage={coverImage}
-                onCoverChange={setCoverImage}
+                onCoverChange={handleCoverChange}
                 folder="tours"
+                disabled={savingMedia}
               />
             </TabsContent>
           </AdminFormTabs>
         </CardContent>
 
-        <CardFooter className="flex gap-3 border-t border-slate-100 bg-slate-50/50">
-          <Button type="submit" disabled={submitting} className="bg-brand-blue hover:bg-brand-blue/90">
+        <CardFooter className="sticky bottom-0 z-20 flex gap-3 border-t border-slate-200 bg-white/95 px-6 py-4 backdrop-blur-md">
+          <Button
+            type="submit"
+            disabled={submitting}
+            className="h-11 flex-1 rounded-lg bg-[#F97316] text-base font-semibold hover:bg-[#EA580C] sm:flex-none sm:px-8"
+          >
             {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {tour ? 'Save changes' : 'Create tour'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => router.back()}>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-11 rounded-lg"
+            onClick={() => router.back()}
+          >
             Cancel
           </Button>
         </CardFooter>

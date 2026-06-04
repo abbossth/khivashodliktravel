@@ -1,0 +1,12 @@
+rules_version = '2';
+
+// Publish: Firebase Console → Storage → Rules (project: shodlik-travel-4dbbf)
+// yoki: npm run firebase:deploy-rules
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}

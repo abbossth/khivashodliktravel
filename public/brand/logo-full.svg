@@ -1,15 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 64" fill="none" role="img" aria-label="Khiva Shodlik Travel">
-  <g transform="translate(4 4) scale(0.875)">
-    <rect width="64" height="64" rx="14" fill="#1a3a5c"/>
-    <path d="M32 10v34" stroke="#34d399" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M32 10c-2 0-3.5 1.8-3.5 4.2 0 2 1.2 3.6 3 4.5-1.8.9-3 2.5-3 4.5 0 2.4 1.5 4.2 3.5 4.2s3.5-1.8 3.5-4.2c0-2-1.2-3.6-3-4.5 1.8-.9 3-2.5 3-4.5C35.5 11.8 34 10 32 10z" fill="#f97316"/>
-    <path d="M10 44h44v6H10z" fill="#c46b3a"/>
-    <path d="M14 38h8v6h-8zM22 40h10v4H22zM42 40h10v4H42zM32 36h10v8H32z" fill="#e8c4a8"/>
-    <path d="M18 34c0-3 2.5-5 6-5h16c3.5 0 6 2 6 5v4H18v-4z" fill="#1e4d6e"/>
-    <circle cx="24" cy="33" r="3.5" fill="#22d3ee" opacity=".9"/>
-    <circle cx="40" cy="33" r="3.5" fill="#22d3ee" opacity=".9"/>
-    <path d="M30 18h4v8h-4z" fill="#34d399"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 88" fill="none" role="img" aria-label="Khiva Shodlik Travel">
+  <g transform="translate(4 4) scale(0.8)">
+    <circle cx="50" cy="50" r="49" fill="#faf8f4" stroke="#2c241c" stroke-width="1.4"/>
+    <circle cx="50" cy="50" r="46" fill="#c5d0dc" stroke="#8b7355" stroke-width=".6"/>
+    <path d="M16 76h24v-16c0-6 5.4-11 12-11s12 5 12 11v16H16z" fill="#9a7d5c" stroke="#4a3728" stroke-width=".7"/>
+    <ellipse cx="28" cy="55" rx="6" ry="4" fill="#6b5d52" stroke="#3d3028" stroke-width=".6"/>
+    <path d="M58 78V42c0-14 2.5-24 8-24s8 10 8 24v36H58z" fill="#6e9090" stroke="#3d4a48" stroke-width=".75"/>
+    <path d="M50 82C38 74 26 78M50 82C58 74 70 78" stroke="#8b6914" stroke-width="1.2" fill="none"/>
   </g>
-  <text x="72" y="28" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a3a5c">Khiva Shodlik Travel</text>
-  <text x="72" y="46" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" font-weight="500" fill="#64748b" letter-spacing=".04em">KHIVA · UZBEKISTAN</text>
+  <text x="96" y="40" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="700" fill="#1e3a5f" letter-spacing="-.02em">
+    <tspan fill="#f97316">Khiva</tspan><tspan> Shodlik Travel</tspan>
+  </text>
+  <line x1="96" y1="50" x2="126" y2="50" stroke="#8b7355" stroke-width=".8" opacity=".65"/>
+  <path d="M136 50l2.5-2.5 2.5 2.5-2.5 2.5-2.5-2.5zm0 0l1.8-1.8 1.8 1.8-1.8 1.8L136 50z" fill="#6b5344"/>
+  <line x1="146" y1="50" x2="176" y2="50" stroke="#8b7355" stroke-width=".8" opacity=".65"/>
 </svg>

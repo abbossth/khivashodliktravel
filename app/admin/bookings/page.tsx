@@ -35,7 +35,10 @@ export default function AdminBookingsPage() {
   const [fetchError, setFetchError] = useState<string | null>(null);
 
   const fetchBookings = useCallback(async () => {
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setFetchError(null);
 

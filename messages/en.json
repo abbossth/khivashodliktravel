@@ -6,6 +6,10 @@
     "contact": "Contact",
     "bookTour": "Book a tour"
   },
+  "brand": {
+    "nameAccent": "Khiva",
+    "nameRest": " Shodlik Travel"
+  },
   "hero": {
     "title": "Discover Uzbekistan with Us",
     "subtitle": "Professional tours from Khiva to the Aral Sea",
@@ -64,7 +68,23 @@
     "highlights": "Highlights",
     "day": "Day",
     "featuredBadge": "Featured",
-    "empty": "No tours match this category yet. Check back soon or contact us for a custom trip."
+    "empty": "No tours match this category yet. Check back soon or contact us for a custom trip.",
+    "gallery": {
+      "sectionLabel": "Tour photos",
+      "cover": "Cover",
+      "thumbnails": "Photo thumbnails",
+      "photoCounter": "{current} / {total}",
+      "openPhoto": "Open photo {n}",
+      "selectPhoto": "Show photo {n}",
+      "expand": "View full size",
+      "previous": "Previous photo",
+      "next": "Next photo",
+      "morePhotos": "+{count} more",
+      "viewAll": "View all {count} photos",
+      "lightboxTitle": "Tour photo gallery",
+      "gridView": "Grid",
+      "singleView": "Slideshow"
+    }
   },
   "blog": {
     "title": "Travel Blog",
@@ -99,7 +119,9 @@
       "defaultSubject": "Website inquiry",
       "emailSubject": "Website inquiry",
       "whatsappIntro": "Hello! I would like to inquire about:",
-      "none": "—"
+      "none": "—",
+      "emailHint": "Opening email…",
+      "emailHintDesc": "Use your mail app or the Gmail tab. You can also write to {email}"
     }
   },
   "services": {
@@ -163,6 +185,16 @@
   "booking": {
     "title": "Book This Tour",
     "subtitle": "Fill in your details, then send the booking via WhatsApp or your email app.",
+    "sectionContact": "Your details",
+    "sectionTrip": "Trip details",
+    "sendVia": "Send your request",
+    "noPaymentNote": "No payment now — we confirm availability and reply within 24 hours.",
+    "placeholderName": "e.g. John Smith",
+    "placeholderEmail": "you@example.com",
+    "placeholderPhone": "+998 90 123 45 67",
+    "placeholderMessage": "Dietary needs, pickup point, questions…",
+    "guestsDecrease": "Fewer guests",
+    "guestsIncrease": "More guests",
     "name": "Full Name",
     "email": "Email Address",
     "phone": "Phone Number",
@@ -174,7 +206,9 @@
     "bookEmail": "Book via Email",
     "whatsappIntro": "Hello! I would like to book this tour:",
     "emailSubject": "Tour booking request",
-    "none": "—"
+    "none": "—",
+    "emailHint": "Opening email…",
+    "emailHintDesc": "Use your mail app or the Gmail tab. You can also write to {email}"
   },
   "footer": {
     "address": "Khiva, Xorazm Region, Uzbekistan",
@@ -229,15 +263,29 @@
     },
     "imageUploader": {
       "dropTitle": "Upload image",
-      "dropHint": "Drag & drop or click — PNG, JPG, WebP",
-      "urlLabel": "Image URL",
-      "urlHint": "Paste a link (/images/... or https://) or use the URL shown after upload",
-      "urlPlaceholder": "/images/hero.jpg or https://...",
+      "dropHint": "Drag & drop or click — PNG, JPG, WebP, GIF (max {maxMb} MB)",
+      "fileTooLarge": "Image must be {maxMb} MB or smaller.",
+      "filesTooLarge": "{count} file(s) skipped — max size is {maxMb} MB each.",
+      "dropFirebase": "Files are saved to Firebase Storage; the link appears in the field below.",
+      "uploading": "Uploading to Firebase Storage…",
+      "urlLabel": "Paste image link",
+      "urlLabelCopy": "Image link (copy)",
+      "urlHint": "Uploading adds the image to the gallery automatically. Use this field only to paste an external link, then click Add.",
+      "urlHintInGallery": "This link is already in the gallery above. Copy it if needed — no need to click Add.",
+      "urlAlreadyInGallery": "Already in the gallery — Add is not required.",
+      "urlPressAdd": "Press Add to include this link in the gallery.",
+      "urlPlaceholder": "Paste a link or upload a file above",
+      "urlPlaceholderUploading": "Uploading… link will appear here",
+      "urlFilling": "Firebase download link is being written to this field…",
+      "copyUrl": "Copy link",
+      "urlCopied": "Link copied",
+      "urlCopyFailed": "Could not copy link",
+      "uploadPartial": "{count} image(s) uploaded before the error",
       "addUrl": "Add image",
       "applyUrl": "Apply URL",
       "urlValid": "Valid image URL",
       "urlRequired": "Enter an image URL",
-      "urlInvalid": "URL must start with /images/ or https://",
+      "urlInvalid": "Use /images/..., https://..., or gs://bucket/path",
       "urlDuplicate": "This image is already in the gallery",
       "urlAdded": "Image URL saved",
       "uploadedOne": "Image uploaded",

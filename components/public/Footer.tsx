@@ -18,7 +18,12 @@ export default async function Footer() {
       <div className="page-shell py-14">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
-            <BrandLogo variant="mark" theme="dark" className="mb-4" />
+            <BrandLogo
+              variant="mark"
+              theme="dark"
+              className="mb-5"
+              markClassName="h-14 w-14 sm:h-16 sm:w-16"
+            />
             <p className="max-w-sm text-sm leading-relaxed text-blue-100/90">{t('description')}</p>
           </div>
 

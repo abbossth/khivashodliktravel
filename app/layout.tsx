@@ -1,6 +1,13 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import { getSiteUrl } from '@/lib/site';
 import './globals.css';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
@@ -17,8 +24,8 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/brand/favicon-16.png', sizes: '16x16', type: 'image/png' },
       { url: '/brand/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/brand/favicon-16.png', sizes: '16x16', type: 'image/png' },
     ],
     apple: '/brand/apple-touch-icon.png',
     shortcut: '/brand/favicon-32.png',
@@ -32,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="font-sans" suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} font-sans`} suppressHydrationWarning>
       <body className="antialiased">{children}</body>
     </html>
   );

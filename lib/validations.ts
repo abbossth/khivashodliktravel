@@ -47,6 +47,16 @@ export const tourSchema = z.object({
   isFeatured: z.boolean(),
 });
 
+/** Partial update for tour gallery (auto-save on upload). */
+export const tourMediaPatchSchema = z
+  .object({
+    images: z.array(imageRefSchema).optional(),
+    coverImage: imageRefSchema.optional(),
+  })
+  .refine((data) => data.images !== undefined || data.coverImage !== undefined, {
+    message: 'Provide images and/or coverImage',
+  });
+
 /** Client booking form (strings from HTML inputs, coerced on submit). */
 export const bookingFormSchema = z.object({
   name: z.string().trim().min(2, 'Name must be at least 2 characters'),
@@ -114,4 +124,9 @@ export function generateSlug(title: string): string {
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+}
+
+/** Slug for URLs — generated from English title; optional fallback when title is empty. */
+export function buildSlugFromTitle(title: string, fallback = 'item'): string {
+  return generateSlug(title) || fallback;
 }

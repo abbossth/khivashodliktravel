@@ -23,8 +23,16 @@ export function middleware(request: NextRequest) {
     }
 
     if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
-      const token = request.cookies.get('admin-token')?.value;
-      if (!token) {
+      const raw = request.cookies.get('admin-token')?.value;
+      let token = raw?.trim() ?? '';
+      if (token) {
+        try {
+          token = decodeURIComponent(token);
+        } catch {
+          /* use raw value */
+        }
+      }
+      if (!token || token.length < 20) {
         return NextResponse.redirect(new URL('/admin/login', request.url));
       }
       return NextResponse.next();

@@ -9,7 +9,7 @@
     "clean": "rm -rf .next",
     "predev": "node scripts/kill-dev-ports.mjs",
     "dev": "next dev -p 3000",
-    "dev:clean": "node scripts/kill-dev-ports.mjs && npm run clean && next dev -p 3000",
+    "dev:clean": "node scripts/kill-dev-ports.mjs && rm -rf .next && next dev -p 3000",
     "dev:turbo": "npm run clean && next dev --turbo",
     "build": "next build",
     "build:clean": "npm run clean && next build",
@@ -17,7 +17,10 @@
     "lint": "next lint",
     "seed": "node scripts/seed-islambek-tours.mjs",
     "seed:sample": "node scripts/seed-tours.mjs",
-    "images:download": "node scripts/download-khorezm-images.mjs"
+    "images:download": "node scripts/download-khorezm-images.mjs",
+    "debug:admin": "node scripts/debug-admin.mjs",
+    "debug:storage": "node scripts/test-firebase-admin.mjs",
+    "firebase:deploy-rules": "firebase deploy --only storage --project shodlik-travel-4dbbf"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
@@ -29,6 +32,7 @@
     "date-fns": "^4.4.0",
     "firebase": "^12.14.0",
     "firebase-admin": "^13.10.0",
+    "jose": "^6.2.3",
     "lucide-react": "^1.17.0",
     "mongoose": "^9.6.3",
     "next": "14.2.35",

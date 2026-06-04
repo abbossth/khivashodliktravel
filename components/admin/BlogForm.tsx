@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { Loader2 } from 'lucide-react';
+import { useForm, Controller } from 'react-hook-form';
+import { Loader2, Globe, Settings } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,16 +22,45 @@ import { AdminFormTabs, TabsContent } from './AdminFormTabs';
 import ImageUploader from './ImageUploader';
 import { useAdminStore } from '@/hooks/useAdmin';
 import { parseJsonResponse } from '@/hooks/useSafeFetch';
-import { generateSlug } from '@/lib/validations';
+import { buildSlugFromTitle } from '@/lib/validations';
+import { cn } from '@/lib/utils';
 import type { BlogPost } from '@/types';
 
 const emptyLocalized = { en: '', ru: '', uz: '' };
 
 const BLOG_TABS = [
-  { value: 'en', label: 'English', shortLabel: 'EN' },
-  { value: 'ru', label: 'Russian', shortLabel: 'RU' },
-  { value: 'uz', label: 'Uzbek', shortLabel: 'UZ' },
-  { value: 'settings', label: 'Settings & media', shortLabel: 'Settings' },
+  {
+    value: 'en',
+    label: 'English',
+    shortLabel: 'EN',
+    icon: Globe,
+    group: 'language' as const,
+    hint: 'Post title, excerpt, and body in English. The page URL is created from this title when you save.',
+  },
+  {
+    value: 'ru',
+    label: 'Russian',
+    shortLabel: 'RU',
+    icon: Globe,
+    group: 'language' as const,
+    hint: 'Russian title, excerpt, and full article text.',
+  },
+  {
+    value: 'uz',
+    label: 'Uzbek',
+    shortLabel: 'UZ',
+    icon: Globe,
+    group: 'language' as const,
+    hint: 'Uzbek title, excerpt, and full article text.',
+  },
+  {
+    value: 'settings',
+    label: 'Settings & media',
+    shortLabel: 'Settings',
+    icon: Settings,
+    group: 'meta' as const,
+    hint: 'Tags, cover image, and publish toggle.',
+  },
 ];
 
 const LOCALE_LABELS: Record<string, string> = {
@@ -60,7 +89,14 @@ export default function BlogForm({ post }: BlogFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [coverImage, setCoverImage] = useState(post?.coverImage || '');
 
-  const { register, handleSubmit, watch, setValue } = useForm<BlogFormValues>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    control,
+    formState: { isDirty },
+  } = useForm<BlogFormValues>({
     defaultValues: post
       ? {
           title: post.title,
@@ -84,6 +120,15 @@ export default function BlogForm({ post }: BlogFormProps) {
 
   const locales = ['en', 'ru', 'uz'] as const;
 
+  const titleValues = watch('title');
+  const excerptValues = watch('excerpt');
+  const tabComplete: Record<string, boolean> = {
+    en: Boolean(titleValues?.en?.trim() && excerptValues?.en?.trim()),
+    ru: Boolean(titleValues?.ru?.trim() && excerptValues?.ru?.trim()),
+    uz: Boolean(titleValues?.uz?.trim() && excerptValues?.uz?.trim()),
+    settings: Boolean(coverImage?.trim()),
+  };
+
   const onSubmit = async (data: BlogFormValues) => {
     if (!token) {
       toast.error('Session expired. Please sign in again.');
@@ -95,7 +140,9 @@ export default function BlogForm({ post }: BlogFormProps) {
     }
 
     setSubmitting(true);
-    const payload = { ...data, coverImage };
+    const slug =
+      buildSlugFromTitle(data.title.en, post?.slug ?? 'post') || post?.slug || 'post';
+    const payload = { ...data, slug, coverImage };
 
     try {
       const url = post ? `/api/blog/${post._id}` : '/api/blog';
@@ -131,29 +178,28 @@ export default function BlogForm({ post }: BlogFormProps) {
           {post ? 'Edit blog post' : 'Create blog post'}
         </CardTitle>
         <CardDescription>
-          Write content in each language, then set the slug, tags, and cover image.
+          Write content in each language, then set tags and cover image. The URL path is created from the English title automatically.
         </CardDescription>
       </CardHeader>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="pt-6">
-          <AdminFormTabs tabs={BLOG_TABS} defaultValue="en">
+          <AdminFormTabs
+            tabs={BLOG_TABS}
+            defaultValue="en"
+            dirty={isDirty}
+            tabComplete={tabComplete}
+            metaGroupLabel="Post settings"
+          >
             {locales.map((loc) => (
-              <TabsContent key={loc} value={loc} className="space-y-4 mt-0">
-                <h3 className="mb-4 border-b border-slate-100 pb-2 text-sm font-semibold uppercase tracking-wide text-brand-blue">
-                  Content — {LOCALE_LABELS[loc]}
-                </h3>
+              <TabsContent key={loc} value={loc} className="admin-form-section mt-0 space-y-4">
+                <h3 className="admin-section-title">Content — {LOCALE_LABELS[loc]}</h3>
                 <div>
                   <Label htmlFor={`title-${loc}`}>Title</Label>
                   <Input
                     id={`title-${loc}`}
                     {...register(`title.${loc}`)}
-                    onChange={(e) => {
-                      setValue(`title.${loc}`, e.target.value);
-                      if (loc === 'en' && !post) {
-                        setValue('slug', generateSlug(e.target.value));
-                      }
-                    }}
+                    onChange={(e) => setValue(`title.${loc}`, e.target.value)}
                     className="mt-1.5"
                   />
                 </div>
@@ -182,16 +228,10 @@ export default function BlogForm({ post }: BlogFormProps) {
               </TabsContent>
             ))}
 
-            <TabsContent value="settings" className="space-y-6 mt-0">
+            <TabsContent value="settings" className="admin-form-section mt-0 space-y-6">
               <div>
-                <h3 className="mb-4 border-b border-slate-100 pb-2 text-sm font-semibold uppercase tracking-wide text-brand-blue">
-                  Post settings
-                </h3>
+                <h3 className="admin-section-title">Post settings</h3>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="sm:col-span-2">
-                    <Label htmlFor="slug">URL slug</Label>
-                    <Input id="slug" {...register('slug')} className="mt-1.5" />
-                  </div>
                   <div className="sm:col-span-2">
                     <Label htmlFor="tags">Tags</Label>
                     <p className="mb-1.5 text-xs text-muted-foreground">Comma separated</p>
@@ -210,25 +250,37 @@ export default function BlogForm({ post }: BlogFormProps) {
                     />
                   </div>
                 </div>
-                <div className="mt-4 flex items-center gap-3 rounded-lg border border-slate-100 bg-slate-50/50 p-4">
-                  <Switch
-                    id="published"
-                    checked={watch('isPublished')}
-                    onCheckedChange={(v) => setValue('isPublished', v)}
-                  />
-                  <div>
-                    <Label htmlFor="published" className="cursor-pointer">
-                      Published
-                    </Label>
-                    <p className="text-xs text-muted-foreground">Visible on the blog</p>
-                  </div>
-                </div>
+                <Controller
+                  name="isPublished"
+                  control={control}
+                  render={({ field }) => (
+                    <label
+                      htmlFor="blog-published"
+                      className={cn(
+                        'mt-4 flex cursor-pointer items-center gap-3 rounded-lg border bg-white p-4 shadow-sm transition-colors hover:border-[#F97316]/40',
+                        field.value
+                          ? 'border-[#F97316]/50 bg-orange-50/40'
+                          : 'border-slate-200'
+                      )}
+                    >
+                      <Switch
+                        id="blog-published"
+                        checked={Boolean(field.value)}
+                        onCheckedChange={(checked) => field.onChange(checked)}
+                      />
+                      <div>
+                        <span className="text-sm font-semibold text-[#1E293B]">
+                          Published
+                        </span>
+                        <p className="text-xs text-[#64748B]">Visible on the blog</p>
+                      </div>
+                    </label>
+                  )}
+                />
               </div>
 
               <div>
-                <h3 className="mb-4 border-b border-slate-100 pb-2 text-sm font-semibold uppercase tracking-wide text-brand-blue">
-                  Cover image
-                </h3>
+                <h3 className="admin-section-title">Cover image</h3>
                 <ImageUploader
                   images={coverImage ? [coverImage] : []}
                   onChange={(imgs) => setCoverImage(imgs[0] || '')}

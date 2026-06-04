@@ -175,7 +175,7 @@ export default async function TourDetailPage({
           </Tabs>
         </div>
 
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
           <BookingForm tourId={tour._id} tourTitle={title} />
         </div>
       </div>

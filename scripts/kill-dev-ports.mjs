@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-/** Stop stale Next.js dev servers that cause white screens and chunk 404 errors. */
+/**
+ * Stop stale Next.js dev servers that cause white screens and /_next/static 404 errors.
+ * If login or admin pages show HTML but buttons do nothing, run: npm run dev:clean
+ */
 import { execSync } from 'node:child_process';
 
 const PORTS = [3000, 3001, 3002, 3003];

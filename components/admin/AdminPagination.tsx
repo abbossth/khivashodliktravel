@@ -126,8 +126,8 @@ export default function AdminPagination({
                 className={cn(
                   'h-8 w-8 shrink-0 text-xs font-semibold',
                   p === page
-                    ? 'bg-brand-blue text-white hover:bg-brand-blue/90'
-                    : 'bg-white'
+                    ? 'bg-[#F97316] text-white shadow-sm hover:bg-[#EA580C]'
+                    : 'border-slate-200 bg-white text-[#1E293B] hover:bg-slate-50'
                 )}
                 onClick={() => onPageChange(p)}
                 aria-label={t('page', { page: p })}

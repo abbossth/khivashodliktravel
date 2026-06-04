@@ -16,7 +16,7 @@ interface AdminState {
 export const useAdminStore = create<AdminState>((set) => ({
   user: null,
   token: null,
-  loading: true,
+  loading: false,
   setUser: (user) => set({ user }),
   setToken: (token) => set({ token }),
   setLoading: (loading) => set({ loading }),

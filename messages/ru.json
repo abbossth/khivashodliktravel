@@ -6,6 +6,10 @@
     "contact": "Контакты",
     "bookTour": "Забронировать тур"
   },
+  "brand": {
+    "nameAccent": "Хива",
+    "nameRest": " Shodlik Travel"
+  },
   "hero": {
     "title": "Откройте Узбекистан с нами",
     "subtitle": "Профессиональные туры от Хивы до Аральского моря",
@@ -64,7 +68,23 @@
     "highlights": "Особенности",
     "day": "День",
     "featuredBadge": "Рекомендуем",
-    "empty": "В этой категории пока нет туров. Свяжитесь с нами для индивидуального тура."
+    "empty": "В этой категории пока нет туров. Свяжитесь с нами для индивидуального тура.",
+    "gallery": {
+      "sectionLabel": "Фото тура",
+      "cover": "Обложка",
+      "thumbnails": "Миниатюры",
+      "photoCounter": "{current} / {total}",
+      "openPhoto": "Открыть фото {n}",
+      "selectPhoto": "Показать фото {n}",
+      "expand": "На весь экран",
+      "previous": "Предыдущее фото",
+      "next": "Следующее фото",
+      "morePhotos": "ещё +{count}",
+      "viewAll": "Все {count} фото",
+      "lightboxTitle": "Галерея тура",
+      "gridView": "Сетка",
+      "singleView": "Слайд-шоу"
+    }
   },
   "blog": {
     "title": "Блог о путешествиях",
@@ -99,7 +119,9 @@
       "defaultSubject": "Запрос с сайта",
       "emailSubject": "Запрос с сайта",
       "whatsappIntro": "Здравствуйте! Интересует:",
-      "none": "—"
+      "none": "—",
+      "emailHint": "Открываем почту…",
+      "emailHintDesc": "Используйте почтовое приложение или вкладку Gmail. Или напишите на {email}"
     }
   },
   "services": {
@@ -142,6 +164,16 @@
   "booking": {
     "title": "Забронировать тур",
     "subtitle": "Заполните данные и отправьте бронь через WhatsApp или почтовое приложение.",
+    "sectionContact": "Ваши данные",
+    "sectionTrip": "Детали поездки",
+    "sendVia": "Отправить запрос",
+    "noPaymentNote": "Оплата не требуется сейчас — подтвердим наличие и ответим в течение 24 часов.",
+    "placeholderName": "например, Иван Иванов",
+    "placeholderEmail": "you@example.com",
+    "placeholderPhone": "+998 90 123 45 67",
+    "placeholderMessage": "Питание, место встречи, вопросы…",
+    "guestsDecrease": "Меньше гостей",
+    "guestsIncrease": "Больше гостей",
     "name": "Полное имя",
     "email": "Email адрес",
     "phone": "Номер телефона",
@@ -153,7 +185,9 @@
     "bookEmail": "Забронировать по Email",
     "whatsappIntro": "Здравствуйте! Хочу забронировать тур:",
     "emailSubject": "Запрос на бронирование тура",
-    "none": "—"
+    "none": "—",
+    "emailHint": "Открываем почту…",
+    "emailHintDesc": "Используйте почтовое приложение или вкладку Gmail. Или напишите на {email}"
   },
   "footer": {
     "address": "Хива, Хорезмская область, Узбекистан",
@@ -208,15 +242,29 @@
     },
     "imageUploader": {
       "dropTitle": "Загрузить изображение",
-      "dropHint": "Перетащите или выберите — PNG, JPG, WebP",
-      "urlLabel": "URL изображения",
-      "urlHint": "Вставьте ссылку (/images/... или https://) или используйте URL после загрузки",
-      "urlPlaceholder": "/images/hero.jpg или https://...",
+      "dropHint": "Перетащите или выберите — PNG, JPG, WebP, GIF (макс. {maxMb} МБ)",
+      "fileTooLarge": "Размер файла не более {maxMb} МБ.",
+      "filesTooLarge": "Пропущено файлов: {count} — максимум {maxMb} МБ каждый.",
+      "dropFirebase": "Файл сохраняется в Firebase Storage; ссылка появится в поле ниже.",
+      "uploading": "Загрузка в Firebase Storage…",
+      "urlLabel": "Вставить ссылку",
+      "urlLabelCopy": "Ссылка на изображение (копировать)",
+      "urlHint": "При загрузке файла изображение сразу попадает в галерею выше. Это поле — только для внешней ссылки, затем нажмите «Добавить».",
+      "urlHintInGallery": "Эта ссылка уже в галерее выше. Можно скопировать — кнопка «Добавить» не нужна.",
+      "urlAlreadyInGallery": "Уже в галерее — добавлять снова не нужно.",
+      "urlPressAdd": "Нажмите «Добавить», чтобы добавить ссылку в галерею.",
+      "urlPlaceholder": "Вставьте ссылку или загрузите файл выше",
+      "urlPlaceholderUploading": "Загрузка… ссылка появится здесь",
+      "urlFilling": "Ссылка Firebase записывается в это поле…",
+      "copyUrl": "Копировать ссылку",
+      "urlCopied": "Ссылка скопирована",
+      "urlCopyFailed": "Не удалось скопировать",
+      "uploadPartial": "До ошибки загружено изображений: {count}",
       "addUrl": "Добавить",
       "applyUrl": "Применить URL",
       "urlValid": "Корректный URL изображения",
       "urlRequired": "Введите URL изображения",
-      "urlInvalid": "URL должен начинаться с /images/ или https://",
+      "urlInvalid": "Используйте /images/..., https://... или gs://bucket/path",
       "urlDuplicate": "Это изображение уже добавлено",
       "urlAdded": "URL изображения сохранён",
       "uploadedOne": "Изображение загружено",

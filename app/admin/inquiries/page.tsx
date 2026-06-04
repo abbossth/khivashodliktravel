@@ -40,7 +40,10 @@ export default function AdminInquiriesPage() {
   const [fetchError, setFetchError] = useState<string | null>(null);
 
   const fetchInquiries = useCallback(async () => {
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setFetchError(null);
 

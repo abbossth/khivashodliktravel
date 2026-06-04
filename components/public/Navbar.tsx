@@ -37,9 +37,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-white/90 shadow-sm backdrop-blur-md">
       <div className="page-shell flex h-16 items-center justify-between">
-        <Link href="/" className="rounded-md">
-          <BrandLogo variant="mark" showText priority />
-        </Link>
+        <BrandLogo variant="mark" showText priority href="/" />
 
         <nav className="hidden items-center gap-1 md:flex">
           {links.map((link) => (

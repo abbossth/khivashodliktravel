@@ -1,20 +1,30 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import PaginatedDataTable from '@/components/admin/PaginatedDataTable';
 import AdminLoading from '@/components/admin/AdminLoading';
 import DeleteConfirmDialog from '@/components/admin/DeleteConfirmDialog';
+import AdminStatusBadge from '@/components/admin/AdminStatusBadge';
+import AdminRowActions from '@/components/admin/AdminRowActions';
 import SafeImage from '@/components/shared/SafeImage';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useAdminStore } from '@/hooks/useAdmin';
 import { parseJsonResponse } from '@/hooks/useSafeFetch';
 import { matchAdminSearch } from '@/lib/admin-search';
 import type { Tour } from '@/types';
+
+const CATEGORIES = ['daytrip', 'multiday', 'shared', 'private', 'transfer'] as const;
 
 export default function AdminToursPage() {
   const t = useTranslations('admin.pagination');
@@ -24,9 +34,14 @@ export default function AdminToursPage() {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all');
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
   const fetchTours = useCallback(async () => {
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setFetchError(null);
 
@@ -52,6 +67,15 @@ export default function AdminToursPage() {
   useEffect(() => {
     fetchTours();
   }, [fetchTours]);
+
+  const filteredByMeta = useMemo(() => {
+    return tours.filter((tour) => {
+      if (statusFilter === 'published' && !tour.isPublished) return false;
+      if (statusFilter === 'draft' && tour.isPublished) return false;
+      if (categoryFilter !== 'all' && tour.category !== categoryFilter) return false;
+      return true;
+    });
+  }, [tours, statusFilter, categoryFilter]);
 
   const handleDelete = async () => {
     if (!deleteId || !token) return;
@@ -79,10 +103,10 @@ export default function AdminToursPage() {
     {
       key: 'cover',
       header: 'Image',
-      className: 'w-20',
+      className: 'w-[72px]',
       render: (tour: Tour) => (
-        <div className="relative h-11 w-16 overflow-hidden rounded-md bg-muted">
-          <SafeImage src={tour.coverImage} alt="" fill className="object-cover" sizes="64px" />
+        <div className="relative h-12 w-12 overflow-hidden rounded-lg bg-slate-100 ring-1 ring-slate-200/80">
+          <SafeImage src={tour.coverImage} alt="" fill className="object-cover" sizes="48px" />
         </div>
       ),
     },
@@ -91,42 +115,48 @@ export default function AdminToursPage() {
       header: 'Title',
       render: (tour: Tour) => (
         <div>
-          <p className="font-medium">{tour.title?.en ?? '—'}</p>
-          <p className="text-xs text-muted-foreground">{tour.slug}</p>
+          <p className="font-medium text-[#1E293B]">{tour.title?.en ?? '—'}</p>
+          <p className="text-xs text-[#64748B]">{tour.slug}</p>
         </div>
       ),
     },
     {
       key: 'category',
       header: 'Category',
-      render: (tour: Tour) => <Badge variant="secondary">{tour.category}</Badge>,
+      render: (tour: Tour) => (
+        <span className="inline-flex rounded-md bg-sky-50 px-2 py-0.5 text-xs font-medium capitalize text-sky-700 ring-1 ring-sky-500/20">
+          {tour.category}
+        </span>
+      ),
     },
     {
       key: 'price',
       header: 'Price',
-      render: (tour: Tour) => `${tour.price} ${tour.currency}`,
+      render: (tour: Tour) => (
+        <span className="text-sm font-medium text-[#1E293B]">
+          {tour.price} {tour.currency}
+        </span>
+      ),
     },
     {
       key: 'status',
       header: 'Status',
       render: (tour: Tour) => (
-        <Badge variant={tour.isPublished ? 'default' : 'outline'}>
-          {tour.isPublished ? 'Published' : 'Draft'}
-        </Badge>
+        <AdminStatusBadge status={tour.isPublished ? 'published' : 'draft'} />
       ),
     },
     {
       key: 'actions',
       header: '',
-      className: 'w-32 text-right',
+      className: 'w-36 text-right',
       render: (tour: Tour) => (
-        <div className="flex justify-end gap-1" onClick={(e) => e.stopPropagation()}>
-          <Button asChild size="icon" variant="ghost" aria-label="View on site">
+        <AdminRowActions>
+          <Button asChild size="icon" variant="ghost" className="h-8 w-8" aria-label="View on site">
             <a href={`/en/tours/${tour.slug}`} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="h-4 w-4" />
             </a>
           </Button>
-          <Button asChild size="icon" variant="ghost" aria-label="Edit tour">
+          <Button asChild size="icon" variant="ghost" className="h-8 w-8" aria-label="Edit tour">
             <Link href={`/admin/tours/${tour._id}/edit`}>
               <Pencil className="h-4 w-4" />
             </Link>
@@ -134,22 +164,60 @@ export default function AdminToursPage() {
           <Button
             size="icon"
             variant="ghost"
+            className="h-8 w-8"
             aria-label="Delete tour"
             onClick={() => setDeleteId(tour._id)}
           >
-            <Trash2 className="h-4 w-4 text-destructive" />
+            <Trash2 className="h-4 w-4 text-[#EF4444]" />
           </Button>
-        </div>
+        </AdminRowActions>
       ),
     },
   ];
 
+  const tableFilters = (
+    <>
+      <Select value={statusFilter} onValueChange={(v) => v && setStatusFilter(v as typeof statusFilter)}>
+        <SelectTrigger className="h-10 w-[140px] rounded-lg bg-[#F8FAFC] text-sm">
+          <SelectValue placeholder="Status" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All status</SelectItem>
+          <SelectItem value="published">Published</SelectItem>
+          <SelectItem value="draft">Draft</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select value={categoryFilter} onValueChange={(v) => v && setCategoryFilter(v)}>
+        <SelectTrigger className="h-10 w-[140px] rounded-lg bg-[#F8FAFC] text-sm">
+          <SelectValue placeholder="Category" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All categories</SelectItem>
+          {CATEGORIES.map((cat) => (
+            <SelectItem key={cat} value={cat}>
+              {cat}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </>
+  );
+
   return (
     <div className="space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-[#64748B]">Manage tour listings, pricing, and photos.</p>
+        <Button asChild className="h-10 rounded-lg bg-[#F97316] px-4 font-semibold hover:bg-[#EA580C]">
+          <Link href="/admin/tours/new">
+            <Plus className="mr-2 h-4 w-4" /> New tour
+          </Link>
+        </Button>
+      </div>
+
       {fetchError && (
-        <div className="rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {fetchError}
-          <Button variant="link" className="ml-2 h-auto p-0" onClick={fetchTours}>
+          <Button variant="link" className="ml-2 h-auto p-0 text-red-700" onClick={fetchTours}>
             Retry
           </Button>
         </div>
@@ -159,7 +227,7 @@ export default function AdminToursPage() {
         <AdminLoading />
       ) : (
         <PaginatedDataTable
-          data={tours}
+          data={filteredByMeta}
           columns={columns}
           searchPlaceholder={t('searchPlaceholder')}
           filterItem={(tour, q) =>
@@ -173,14 +241,18 @@ export default function AdminToursPage() {
             )
           }
           emptyMessage="No tours yet"
+          emptyDescription="Create your first tour to showcase on the website."
           emptyAction={
-            <Button asChild size="sm" className="bg-brand-blue">
+            <Button asChild className="rounded-lg bg-[#F97316] hover:bg-[#EA580C]">
               <Link href="/admin/tours/new">Create your first tour</Link>
             </Button>
           }
           initialPageSize={10}
+          resetDeps={[statusFilter, categoryFilter]}
+          enableBulkSelect
+          toolbarFilters={tableFilters}
           toolbarActions={
-            <Button asChild size="sm" className="bg-brand-blue shrink-0">
+            <Button asChild size="sm" className="shrink-0 rounded-lg bg-[#F97316] hover:bg-[#EA580C]">
               <Link href="/admin/tours/new">
                 <Plus className="mr-2 h-4 w-4" /> New tour
               </Link>
