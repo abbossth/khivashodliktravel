@@ -1,6 +1,9 @@
 import dynamic from 'next/dynamic';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
+import FaqSection from '@/components/seo/FaqSection';
+import JsonLd from '@/components/seo/JsonLd';
+import { buildPageMetadata, faqPageJsonLd, ichanKalaAttractionJsonLd } from '@/lib/seo';
 import HeroSection from '@/components/public/HeroSection';
 import ServicesSection from '@/components/public/ServicesSection';
 import TourGrid from '@/components/public/TourGrid';
@@ -20,24 +23,33 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const t = await getTranslations({ locale: params.locale, namespace: 'hero' });
-  return {
-    title: 'Khiva Shodlik Travel',
-    description: t('subtitle'),
-  };
+  const t = await getTranslations({ locale: params.locale, namespace: 'seo.home' });
+  return buildPageMetadata({
+    locale: params.locale,
+    path: '',
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+  });
 }
 
 export default async function HomePage({ params }: { params: { locale: string } }) {
   setRequestLocale(params.locale);
 
-  const [t, featuredTours, recentPosts] = await Promise.all([
+  const [t, seoHome, featuredTours, recentPosts] = await Promise.all([
     getTranslations(),
+    getTranslations('seo.home'),
     getTours({ featured: true, limit: 6 }),
     getBlogPosts({ limit: 3 }),
   ]);
 
+  const homeFaqs = (seoHome.raw('faqs') as { q: string; a: string }[]).map((faq) => ({
+    question: faq.q,
+    answer: faq.a,
+  }));
+
   return (
     <>
+      <JsonLd data={[faqPageJsonLd(homeFaqs), ichanKalaAttractionJsonLd(params.locale)]} />
       <HeroSection />
       <ServicesSection />
 
@@ -65,6 +77,13 @@ export default async function HomePage({ params }: { params: { locale: string } 
           </div>
         </section>
       )}
+
+      <FaqSection
+        title={seoHome('faqTitle')}
+        subtitle={seoHome('faqSubtitle')}
+        items={homeFaqs}
+        className="bg-muted/30 py-16 md:py-20"
+      />
 
       <section className="relative overflow-hidden bg-brand-blue py-20 text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-brand-orange/20 via-transparent to-transparent" />

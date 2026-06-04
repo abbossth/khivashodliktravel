@@ -34,7 +34,11 @@ export default async function Footer() {
             <ul className="space-y-2.5 text-sm text-blue-100">
               {[
                 { href: '/', label: nav('home') },
+                { href: '/khiva-tours', label: nav('khivaTours') },
+                { href: '/uzbekistan-tours', label: nav('uzbekistanTours') },
+                { href: '/aral-sea-tours', label: nav('aralTours') },
                 { href: '/tours', label: nav('tours') },
+                { href: '/about', label: nav('about') },
                 { href: '/blog', label: nav('blog') },
                 { href: '/contact', label: nav('contact') },
               ].map((item) => (

@@ -2,6 +2,10 @@
   "nav": {
     "home": "Home",
     "tours": "Tours",
+    "khivaTours": "Khiva Tours",
+    "uzbekistanTours": "Uzbekistan Tours",
+    "aralTours": "Aral Sea Tours",
+    "about": "About",
     "blog": "Blog",
     "contact": "Contact",
     "bookTour": "Book a tour"
@@ -11,8 +15,8 @@
     "nameRest": " Shodlik Travel"
   },
   "hero": {
-    "title": "Discover Uzbekistan with Us",
-    "subtitle": "Professional tours from Khiva to the Aral Sea",
+    "title": "Khiva Tours & Travel Agency in Uzbekistan",
+    "subtitle": "Professional Khiva excursions, city tours and Uzbekistan packages — from Ichan Kala to the Aral Sea",
     "badge": "Khiva · Khorezm · Karakalpakstan",
     "cta": "Explore Tours",
     "ctaSecondary": "Contact us"
@@ -313,6 +317,297 @@
       "clearSearch": "Clear search",
       "countTotal": "{count, plural, one {# item} other {# items}}",
       "countFiltered": "{filtered} of {total} items"
+    }
+  },
+  "seo": {
+    "common": {
+      "ctaContact": "Contact us",
+      "ctaTours": "Browse all tours",
+      "relatedTitle": "Explore more"
+    },
+    "home": {
+      "metaTitle": "Khiva Tours & Travel Agency | Uzbekistan Tours from Khiva",
+      "metaDescription": "Book Khiva tours, city excursions, Ichan Kala walks, Khorezm day trips & Aral Sea adventures with Khiva Shodlik Travel — your local Uzbekistan travel agency.",
+      "faqTitle": "Frequently asked questions about Khiva tours",
+      "faqSubtitle": "Planning a trip to Khiva or Uzbekistan? Start here.",
+      "faqs": [
+        {
+          "q": "What are the best Khiva tours for first-time visitors?",
+          "a": "Most guests start with a Khiva city tour inside Itchan Kala (Ichan Kala), then add a Khorezm day trip to Ayaz-Qala, Toprak-Qala and the Ellik Qala fortresses. We help you choose private or shared options."
+        },
+        {
+          "q": "Are you a licensed Khiva travel agency?",
+          "a": "Yes. Khiva Shodlik Travel is a Khiva-based travel agency offering excursions, transfers and multi-day Uzbekistan tours with English-speaking drivers and licensed local guides on request."
+        },
+        {
+          "q": "Do you offer Khiva walking tours and day tours?",
+          "a": "We organize Khiva walking tours through the old city, museum visits, minarets and madrasahs, plus half-day and full-day tours to ancient Khorezm and the Aral Sea region."
+        },
+        {
+          "q": "Can I book a private guide in Khiva?",
+          "a": "Private Khiva excursions with a dedicated driver (and guide on request) are available year-round. Contact us with your dates and group size for a custom quote."
+        },
+        {
+          "q": "Do you run Aral Sea tours from Khiva?",
+          "a": "Yes. Our Aral Sea tours from Khiva include Muynak, the ship cemetery, Ustyurt canyons and desert landscapes — typically as 1–3 day packages with comfortable transport."
+        },
+        {
+          "q": "What should I do in Khiva for one or two days?",
+          "a": "Day one: UNESCO Itchan Kala city tour. Day two: Khorezm fortresses or a Silk Road transfer to Bukhara or Nukus. See our Khiva tours and Uzbekistan tours pages for itineraries."
+        }
+      ]
+    },
+    "about": {
+      "metaTitle": "About Us | Khiva Travel Agency",
+      "metaDescription": "Meet Khiva Shodlik Travel — local Khiva travel agency for Uzbekistan tours, Khiva excursions, transfers and Aral Sea adventures since day one.",
+      "h1": "About Khiva Shodlik Travel",
+      "intro": "We are a Khiva-based travel agency helping visitors discover Itchan Kala, ancient Khorezm and the wider Silk Road."
+    },
+    "khivaTours": {
+      "path": "/khiva-tours",
+      "metaTitle": "Khiva Tours & Excursions | Khiva Travel Agency",
+      "metaDescription": "Book Khiva tours, walking tours, Ichan Kala excursions and Khiva city tours with a local travel agency. Private guide, day tours & UNESCO sights.",
+      "keywords": [
+        "Khiva Tours",
+        "Khiva Tour",
+        "Khiva Excursions",
+        "Khiva Guide",
+        "Khiva City Tour",
+        "Khiva Walking Tour",
+        "Ichan Kala Tour",
+        "Khiva Travel Agency",
+        "Best Tours in Khiva",
+        "Things to do in Khiva"
+      ],
+      "breadcrumb": "Khiva Tours",
+      "h1": "Khiva Tours & Excursions",
+      "intro": "Explore UNESCO Itchan Kala, turquoise minarets and ancient Khorezm with a trusted Khiva travel agency. We offer private and shared Khiva tours, walking tours and custom day trips.",
+      "sections": [
+        {
+          "heading": "Khiva city tours & walking tours",
+          "p1": "Our Khiva city tour covers palaces, mosques, the Kalta Minor minaret and hidden corners of the old town with a knowledgeable local guide or driver.",
+          "p2": "Choose a relaxed Khiva walking tour at sunrise or sunset, or combine museums and craft workshops for a full-day Ichan Kala tour."
+        },
+        {
+          "heading": "Khorezm day tours from Khiva",
+          "p1": "Beyond the walls, popular Khiva excursions visit Ellik Qala, Ayaz-Qala, Toprak-Qala and desert landscapes — the classic Silk Road fortress route.",
+          "p2": "Shared day trips start from competitive per-person rates; private tours offer flexible timing and hotel pickup."
+        },
+        {
+          "heading": "Why book with a local Khiva travel agency?",
+          "p1": "We live in Khiva, speak English, and plan realistic routes with modern vehicles — sedan, SUV, minivan or bus for groups.",
+          "p2": "WhatsApp support, transparent pricing and fast confirmation make us a top choice for Uzbekistan tours starting in Khiva."
+        }
+      ],
+      "ctaTitle": "Plan your Khiva tour today",
+      "ctaSubtitle": "Tell us your dates and we will recommend the best Khiva tour or private excursion.",
+      "faqTitle": "Khiva tours — FAQ",
+      "faqSubtitle": "Answers about booking, timing and sights.",
+      "faqs": [
+        {
+          "q": "How long is a typical Khiva city tour?",
+          "a": "Most Khiva walking tours and city tours take 3–6 hours inside Itchan Kala, depending on museums and photo stops."
+        },
+        {
+          "q": "Is Itchan Kala (Ichan Kala) included?",
+          "a": "Yes — our Khiva UNESCO tour focuses on the walled inner city, its architecture and key monuments."
+        },
+        {
+          "q": "Can I combine Khiva tours with Bukhara or Samarkand?",
+          "a": "We arrange transfers and multi-city Uzbekistan tour packages — ask for a Silk Road itinerary."
+        },
+        {
+          "q": "Do you offer Khiva day tours year-round?",
+          "a": "Spring and autumn are ideal, but Khiva excursions run in all seasons with adjusted start times in summer heat."
+        },
+        {
+          "q": "What is the best tour in Khiva for photography?",
+          "a": "Sunrise walks on the walls and Kalta Minor, plus golden-hour routes through narrow alleys are guest favorites."
+        },
+        {
+          "q": "How do I book Khiva excursions?",
+          "a": "Browse our tour list, use the booking form, or message us on WhatsApp for instant confirmation."
+        }
+      ],
+      "related": [
+        {
+          "href": "/tours",
+          "label": "All tour packages"
+        },
+        {
+          "href": "/uzbekistan-tours",
+          "label": "Uzbekistan tours"
+        },
+        {
+          "href": "/aral-sea-tours",
+          "label": "Aral Sea tours"
+        },
+        {
+          "href": "/about",
+          "label": "About our agency"
+        }
+      ]
+    },
+    "uzbekistanTours": {
+      "path": "/uzbekistan-tours",
+      "metaTitle": "Uzbekistan Tours from Khiva | Silk Road Travel Agency",
+      "metaDescription": "Uzbekistan tours and packages from Khiva — Khorezm, Bukhara transfers, Aral Sea, Silk Road tours Uzbekistan. Local Uzbekistan travel agency.",
+      "keywords": [
+        "Uzbekistan Tours",
+        "Uzbekistan Travel Agency",
+        "Silk Road Tours Uzbekistan",
+        "Khorezm Tour",
+        "Khiva Tours",
+        "Things to do in Khiva"
+      ],
+      "breadcrumb": "Uzbekistan Tours",
+      "h1": "Uzbekistan Tours from Khiva",
+      "intro": "Start your Uzbekistan tour in Khiva — the gateway to Khorezm, Karakalpakstan and the classic Silk Road cities. We design private and group routes across Uzbekistan.",
+      "sections": [
+        {
+          "heading": "Silk Road tours Uzbekistan",
+          "p1": "Link Khiva with Bukhara, Samarkand and Tashkent via reliable transfers and guided stops. We handle timing, border-free domestic travel and luggage-friendly vehicles.",
+          "p2": "Popular Silk Road tours Uzbekistan packages combine UNESCO old towns with desert fortresses and local meals."
+        },
+        {
+          "heading": "Khorezm & northwest Uzbekistan",
+          "p1": "Our Uzbekistan tours highlight ancient Khorezm, the Ellik Qala chain, Nukus museums and the Aral Sea shoreline.",
+          "p2": "Multi-day options include yurt stays and photography-focused routes."
+        },
+        {
+          "heading": "Custom Uzbekistan travel agency service",
+          "p1": "As a Khiva travel agency we tailor Uzbekistan tours for families, couples, photographers and small groups.",
+          "p2": "English support, hotel pickup in Khiva and 24/7 WhatsApp assistance are included."
+        }
+      ],
+      "ctaTitle": "Build your Uzbekistan itinerary",
+      "ctaSubtitle": "From a single transfer to a 10-day Silk Road tour — we will help you plan it.",
+      "faqTitle": "Uzbekistan tours — FAQ",
+      "faqSubtitle": "",
+      "faqs": [
+        {
+          "q": "Can I start Uzbekistan tours in Khiva?",
+          "a": "Yes — Khiva is our base. Most guests arrive from Urgench airport or train, then continue to Bukhara or Nukus."
+        },
+        {
+          "q": "Do you offer Uzbekistan group tours?",
+          "a": "We run shared day tours and can connect you with private multi-day Uzbekistan tour plans."
+        },
+        {
+          "q": "What visas do I need for Uzbekistan tours?",
+          "a": "Check current visa rules for your nationality. We provide invitation letters on request for certain visa types."
+        },
+        {
+          "q": "How many days for Khiva and Khorezm?",
+          "a": "Allow 2–3 days for Khiva city plus one Khorezm day trip; add 1–2 days for Aral Sea or Nukus extensions."
+        },
+        {
+          "q": "Are Silk Road tours Uzbekistan suitable in winter?",
+          "a": "Winter is quieter with cool weather; some desert roads need extra time — we advise daily."
+        },
+        {
+          "q": "How to book Uzbekistan tours with your agency?",
+          "a": "Contact us with dates and interests — we reply with options and clear pricing."
+        }
+      ],
+      "related": [
+        {
+          "href": "/khiva-tours",
+          "label": "Khiva tours"
+        },
+        {
+          "href": "/aral-sea-tours",
+          "label": "Aral Sea tours"
+        },
+        {
+          "href": "/tours",
+          "label": "Tour catalog"
+        },
+        {
+          "href": "/contact",
+          "label": "Contact"
+        }
+      ]
+    },
+    "aralSeaTours": {
+      "path": "/aral-sea-tours",
+      "metaTitle": "Aral Sea Tour from Khiva | Muynak & Ship Cemetery",
+      "metaDescription": "Aral Sea tours from Khiva — Muynak, ship cemetery, Ustyurt canyons. Multi-day Uzbekistan adventure with a local Khiva travel agency.",
+      "keywords": [
+        "Aral Sea Tour from Khiva",
+        "Uzbekistan Tours",
+        "Khiva Tours",
+        "Khorezm Tour",
+        "Khiva Travel Agency"
+      ],
+      "breadcrumb": "Aral Sea Tours",
+      "h1": "Aral Sea Tours from Khiva",
+      "intro": "Discover the Aral Sea region — Muynak's ship cemetery, dramatic canyons and desert roads — on guided tours departing from Khiva with experienced drivers.",
+      "sections": [
+        {
+          "heading": "Classic Aral Sea tour from Khiva",
+          "p1": "Most Aral Sea tours from Khiva are 1–2 day trips to Muynak and viewpoints over the former shoreline, with stops for photos and local lunch.",
+          "p2": "Longer routes add Ustyurt Plateau canyons and Nukus for the Savitsky Museum."
+        },
+        {
+          "heading": "What to expect on the road",
+          "p1": "Desert highways, seasonal tracks and bright skies — we use air-conditioned SUVs or minivans and carry water.",
+          "p2": "Start times are early in summer; spring and autumn offer the best light for photography."
+        },
+        {
+          "heading": "Combine with Khiva tours",
+          "p1": "Pair an Aral Sea tour with a Khiva city tour and Khorezm fortresses for a complete northwest Uzbekistan itinerary.",
+          "p2": "We handle hotel pickup in Khiva and drop-off on return."
+        }
+      ],
+      "ctaTitle": "Request an Aral Sea tour quote",
+      "ctaSubtitle": "Share your travel dates and group size for a tailored program.",
+      "faqTitle": "Aral Sea tours — FAQ",
+      "faqSubtitle": "",
+      "faqs": [
+        {
+          "q": "How far is Muynak from Khiva?",
+          "a": "The drive is several hours across Khorezm and Karakalpakstan — we plan rest stops and safe driving hours."
+        },
+        {
+          "q": "Is the Aral Sea tour from Khiva worth it?",
+          "a": "Travelers interested in environmental history, surreal landscapes and off-the-beaten-path Uzbekistan tours love this route."
+        },
+        {
+          "q": "Do I need a 4x4 for Aral Sea tours?",
+          "a": "Most seasons are fine in SUV/minivan; we monitor road conditions and adjust the route if needed."
+        },
+        {
+          "q": "Can I visit the ship cemetery?",
+          "a": "Yes — Muynak's ship cemetery is a highlight of our standard Aral Sea package."
+        },
+        {
+          "q": "How many days for an Aral Sea tour?",
+          "a": "One day is possible for highlights; two days allow canyons and museum visits."
+        },
+        {
+          "q": "Who operates Aral Sea tours from Khiva?",
+          "a": "Khiva Shodlik Travel organizes private and small-group departures with local drivers who know the region."
+        }
+      ],
+      "related": [
+        {
+          "href": "/tours",
+          "label": "All tours"
+        },
+        {
+          "href": "/khiva-tours",
+          "label": "Khiva tours"
+        },
+        {
+          "href": "/uzbekistan-tours",
+          "label": "Uzbekistan tours"
+        },
+        {
+          "href": "/contact",
+          "label": "Book now"
+        }
+      ]
     }
   }
 }

@@ -188,3 +188,15 @@ export async function getAllTourSlugs(): Promise<string[]> {
     return [];
   }
 }
+
+export async function getAllBlogSlugs(): Promise<string[]> {
+  if (!(await connectDBSafe())) return [];
+
+  try {
+    const rows = await BlogPostModel.find({ isPublished: true }).select('slug').lean();
+    return rows.map((r) => String((r as { slug: string }).slug)).filter(Boolean);
+  } catch (error) {
+    logError('getAllBlogSlugs', error);
+    return [];
+  }
+}

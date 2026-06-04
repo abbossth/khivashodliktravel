@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { DEFAULT_OG_IMAGE, SITE_NAME } from '@/lib/seo';
 import { getSiteUrl } from '@/lib/site';
 import './globals.css';
 
 const inter = Inter({
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
   display: 'swap',
   variable: '--font-inter',
 });
@@ -12,23 +13,23 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
-    default: 'Khiva Shodlik Travel',
-    template: '%s | Khiva Shodlik Travel',
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: 'Professional tours from Khiva to the Aral Sea - Discover Uzbekistan with us',
+  description:
+    'Khiva tours, excursions, and Uzbekistan travel packages from a local Khiva travel agency.',
   openGraph: {
     type: 'website',
-    siteName: 'Khiva Shodlik Travel',
-    locale: 'en_US',
-    alternateLocale: ['ru_RU', 'uz_UZ'],
+    siteName: SITE_NAME,
+    images: [{ url: DEFAULT_OG_IMAGE, width: 512, height: 512, alt: SITE_NAME }],
   },
+  twitter: { card: 'summary_large_image' },
   icons: {
     icon: [
       { url: '/brand/favicon-32.png', sizes: '32x32', type: 'image/png' },
       { url: '/brand/favicon-16.png', sizes: '16x16', type: 'image/png' },
     ],
     apple: '/brand/apple-touch-icon.png',
-    shortcut: '/brand/favicon-32.png',
   },
   manifest: '/site.webmanifest',
 };

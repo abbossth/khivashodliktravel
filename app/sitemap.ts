@@ -1,9 +1,18 @@
 import type { MetadataRoute } from 'next';
-import { getAllTourSlugs } from '@/lib/data';
+import { getAllTourSlugs, getAllBlogSlugs } from '@/lib/data';
 import { getSiteUrl } from '@/lib/site';
 import { routing } from '@/i18n/routing';
 
-const PUBLIC_PATHS = ['', '/tours', '/blog', '/contact'] as const;
+const PUBLIC_PATHS = [
+  '',
+  '/tours',
+  '/khiva-tours',
+  '/uzbekistan-tours',
+  '/aral-sea-tours',
+  '/about',
+  '/blog',
+  '/contact',
+] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
@@ -12,29 +21,38 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   for (const locale of routing.locales) {
     for (const path of PUBLIC_PATHS) {
+      const isHome = path === '';
       entries.push({
         url: `${base}/${locale}${path}`,
         lastModified: now,
-        changeFrequency: path === '' ? 'weekly' : 'daily',
-        priority: path === '' ? 1 : 0.8,
+        changeFrequency: isHome ? 'weekly' : 'weekly',
+        priority: isHome ? 1 : path.includes('tours') ? 0.9 : 0.75,
       });
     }
   }
 
   try {
-    const slugs = await getAllTourSlugs();
+    const [tourSlugs, blogSlugs] = await Promise.all([getAllTourSlugs(), getAllBlogSlugs()]);
     for (const locale of routing.locales) {
-      for (const slug of slugs) {
+      for (const slug of tourSlugs) {
         entries.push({
           url: `${base}/${locale}/tours/${slug}`,
           lastModified: now,
           changeFrequency: 'weekly',
-          priority: 0.7,
+          priority: 0.8,
+        });
+      }
+      for (const slug of blogSlugs) {
+        entries.push({
+          url: `${base}/${locale}/blog/${slug}`,
+          lastModified: now,
+          changeFrequency: 'monthly',
+          priority: 0.6,
         });
       }
     }
   } catch {
-    // Build/runtime without DB — static routes only
+    // DB unavailable at build — static routes only
   }
 
   return entries;

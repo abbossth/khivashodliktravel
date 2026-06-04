@@ -1,4 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import PageBreadcrumbs from '@/components/seo/PageBreadcrumbs';
+import { buildPageMetadata } from '@/lib/seo';
 import TourGrid from '@/components/public/TourGrid';
 import ToursCategoryNav from '@/components/public/ToursCategoryNav';
 import SectionHeading from '@/components/shared/SectionHeading';
@@ -21,7 +23,13 @@ export async function generateMetadata({
   params: { locale: string };
 }) {
   const t = await getTranslations({ locale: params.locale, namespace: 'tours' });
-  return { title: t('title'), description: t('subtitle') };
+  return buildPageMetadata({
+    locale: params.locale,
+    path: 'tours',
+    title: `${t('title')} | Khiva Tours & Uzbekistan Packages`,
+    description: t('subtitle'),
+    keywords: ['Khiva Tours', 'Uzbekistan Tours', 'Khiva Excursions', 'Khiva Day Tour'],
+  });
 }
 
 export default async function ToursPage({
@@ -39,8 +47,9 @@ export default async function ToursPage({
       ? (rawCategory as TourCategory)
       : 'all';
 
-  const [t, tours] = await Promise.all([
+  const [t, nav, tours] = await Promise.all([
     getTranslations('tours'),
+    getTranslations('nav'),
     getTours({
       category: activeCategory === 'all' ? undefined : activeCategory,
       publishedOnly: true,
@@ -49,7 +58,14 @@ export default async function ToursPage({
 
   return (
     <div className="page-shell py-16 md:py-20">
-      <SectionHeading title={t('title')} subtitle={t('subtitle')} />
+      <PageBreadcrumbs
+        locale={params.locale}
+        items={[
+          { label: nav('home'), href: '/' },
+          { label: t('title'), href: '/tours' },
+        ]}
+      />
+      <SectionHeading as="h1" title={t('title')} subtitle={t('subtitle')} />
       <ToursCategoryNav active={activeCategory} />
       <TourGrid tours={tours} emptyMessage={t('empty')} />
     </div>

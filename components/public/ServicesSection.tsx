@@ -4,10 +4,10 @@ import { Map, Users, Tent, Waves, Car, Bus } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
 
 const services = [
-  { key: 'privateDay', icon: Map, href: '/tours?category=private' },
+  { key: 'privateDay', icon: Map, href: '/khiva-tours' },
   { key: 'sharedDay', icon: Users, href: '/tours?category=shared' },
   { key: 'twoDay', icon: Tent, href: '/tours?category=multiday' },
-  { key: 'aral', icon: Waves, href: '/tours?category=multiday' },
+  { key: 'aral', icon: Waves, href: '/aral-sea-tours' },
   { key: 'transfers', icon: Car, href: '/tours?category=transfer' },
   { key: 'team', icon: Bus, href: '/contact' },
 ] as const;

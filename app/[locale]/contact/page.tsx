@@ -1,5 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import PageBreadcrumbs from '@/components/seo/PageBreadcrumbs';
+import { buildPageMetadata } from '@/lib/seo';
 import SectionHeading from '@/components/shared/SectionHeading';
 import ContactInquiryForm from '@/components/public/ContactInquiryForm';
 import { Card, CardContent } from '@/components/ui/card';
@@ -18,13 +20,19 @@ export async function generateMetadata({
   params: { locale: string };
 }) {
   const t = await getTranslations({ locale: params.locale, namespace: 'contact' });
-  return { title: t('title'), description: t('subtitle') };
+  return buildPageMetadata({
+    locale: params.locale,
+    path: 'contact',
+    title: `${t('title')} | Khiva Travel Agency`,
+    description: t('subtitle'),
+    keywords: ['Khiva Travel Agency', 'Khiva Tours', 'Private Guide in Khiva'],
+  });
 }
 
 export default async function ContactPage({ params }: { params: { locale: string } }) {
   setRequestLocale(params.locale);
 
-  const t = await getTranslations('contact');
+  const [t, nav] = await Promise.all([getTranslations('contact'), getTranslations('nav')]);
 
   const contactItems = [
     { icon: MapPin, label: t('addressLabel'), value: t('address') },
@@ -51,7 +59,14 @@ export default async function ContactPage({ params }: { params: { locale: string
 
   return (
     <div className="page-shell py-16 md:py-20">
-      <SectionHeading title={t('title')} subtitle={t('subtitle')} />
+      <PageBreadcrumbs
+        locale={params.locale}
+        items={[
+          { label: nav('home'), href: '/' },
+          { label: t('title') },
+        ]}
+      />
+      <SectionHeading as="h1" title={t('title')} subtitle={t('subtitle')} />
 
       <div className="grid gap-10 lg:grid-cols-2">
         <div className="space-y-4">

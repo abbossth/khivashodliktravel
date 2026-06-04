@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import BlogCard from '@/components/public/BlogCard';
+import { buildPageMetadata } from '@/lib/seo';
 import SectionHeading from '@/components/shared/SectionHeading';
 import { getBlogPosts } from '@/lib/data';
 
@@ -11,7 +12,13 @@ export async function generateMetadata({
   params: { locale: string };
 }) {
   const t = await getTranslations({ locale: params.locale, namespace: 'blog' });
-  return { title: t('title'), description: t('subtitle') };
+  return buildPageMetadata({
+    locale: params.locale,
+    path: 'blog',
+    title: `${t('title')} | Khiva Travel Tips`,
+    description: t('subtitle'),
+    keywords: ['Things to do in Khiva', 'Khiva Tours', 'Uzbekistan Tours', 'Silk Road Tours Uzbekistan'],
+  });
 }
 
 export default async function BlogPage({ params }: { params: { locale: string } }) {

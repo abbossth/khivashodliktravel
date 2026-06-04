@@ -4,6 +4,10 @@ import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server';
 import { Clock, Users, Check, X } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import JsonLd from '@/components/seo/JsonLd';
+import PageBreadcrumbs from '@/components/seo/PageBreadcrumbs';
+import { buildPageMetadata, breadcrumbJsonLd, tourProductJsonLd } from '@/lib/seo';
+import { normalizeImageUrl } from '@/lib/image-url';
 import TourDetailGallery from '@/components/public/TourDetailGallery';
 import TourGrid from '@/components/public/TourGrid';
 import SectionHeading from '@/components/shared/SectionHeading';
@@ -48,10 +52,18 @@ export async function generateMetadata({
   if (!tour) return { title: 'Tour Not Found' };
 
   const locale = params.locale as Locale;
-  return {
-    title: getLocalizedField(tour.title, locale),
-    description: getLocalizedField(tour.shortDescription, locale),
-  };
+  const title = getLocalizedField(tour.title, locale);
+  const description = getLocalizedField(tour.shortDescription, locale);
+  const image = normalizeImageUrl(tour.coverImage);
+
+  return buildPageMetadata({
+    locale: params.locale,
+    path: `tours/${params.slug}`,
+    title: `${title} | Khiva Tour`,
+    description,
+    image: image || undefined,
+    keywords: ['Khiva Tours', 'Khiva Tour', 'Uzbekistan Tours', title],
+  });
 }
 
 export default async function TourDetailPage({
@@ -61,9 +73,10 @@ export default async function TourDetailPage({
 }) {
   setRequestLocale(params.locale);
 
-  const [tour, t, locale] = await Promise.all([
+  const [tour, t, nav, locale] = await Promise.all([
     getTourBySlug(params.slug),
     getTranslations('tours'),
+    getTranslations('nav'),
     getLocale(),
   ]);
   if (!tour) notFound();
@@ -82,8 +95,36 @@ export default async function TourDetailPage({
     })
   ).filter((t) => t?._id && t._id !== tour._id).slice(0, 3);
 
+  const cover = normalizeImageUrl(tour.coverImage);
+
   return (
     <div className="page-shell py-10 md:py-14">
+      <PageBreadcrumbs
+        locale={params.locale}
+        items={[
+          { label: nav('home'), href: '/' },
+          { label: t('title'), href: '/tours' },
+          { label: title, href: `/tours/${params.slug}` },
+        ]}
+      />
+      <JsonLd
+        data={[
+          breadcrumbJsonLd(params.locale, [
+            { name: nav('home'), path: '/' },
+            { name: t('title'), path: '/tours' },
+            { name: title, path: `/tours/${params.slug}` },
+          ]),
+          tourProductJsonLd({
+            locale: params.locale,
+            name: title,
+            description: getLocalizedField(tour.shortDescription, loc),
+            slug: params.slug,
+            image: cover,
+            price: tour.price,
+            currency: tour.currency,
+          }),
+        ]}
+      />
       <div className="grid gap-10 lg:grid-cols-3 lg:gap-12">
         <div className="lg:col-span-2">
           <TourDetailGallery
