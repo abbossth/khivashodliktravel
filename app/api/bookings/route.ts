@@ -2,6 +2,7 @@ export const runtime = 'nodejs';
 
 import { NextRequest, NextResponse } from 'next/server';
 import Booking from '@/models/Booking';
+import '@/models/Tour'; // ensure Tour model is registered for populate
 import { verifyAdminToken } from '@/lib/auth';
 import { bookingSchema, bookingStatusSchema } from '@/lib/validations';
 import { sendBookingNotification } from '@/lib/email';
